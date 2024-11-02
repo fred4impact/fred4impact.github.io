@@ -3,20 +3,21 @@
  What is SQL 
  SQL (Structured Query Language) is powerful for managing and interacting with databases. Let’s go through step-by-step instructions on setting up MySQL and Workbench, as well as covering some foundational SQL syntax for beginners.
 
- Step 1: Installing MySQL Server
+ 
+ ## Step 1: Installing MySQL Server
 
-    Download MySQL:
+   ### Download MySQL:
         - Visit the MySQL Community Downloads page.
         - Choose your operating system (Windows, MacOS, Linux).
         -  Download the MySQL Installer.
 
-    Run the Installer:
+    ### Run the Installer:
         - Open the downloaded installer and follow the setup steps.
         - During setup, you’ll be prompted to select components. Choose:
             MySQL Server (mandatory)
             MySQL Workbench (for easy GUI-based database interaction)
 
-    Configure MySQL Server:
+    ### Configure MySQL Server:
        -  Set up the configuration as prompted.
         When asked for a root password, choose a secure one and remember it—this will be your main login.
        -  Complete the installation by clicking through the steps.
