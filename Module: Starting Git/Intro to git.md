@@ -10,11 +10,11 @@ Git is a powerful and popular version control system that helps you track change
 To install Git on macOS, use Homebrew:
 ```bash
 brew install git
-
+```
 
 ### Configure Git
 
-Set up your name and email, which Git will use for all commits:
+Set up your name and email, which Git will use for all commgit its:
 
 ```
 git config --global user.name "Your Name"
