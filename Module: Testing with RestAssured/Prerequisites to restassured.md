@@ -30,8 +30,10 @@ Below are examples demonstrating the basics of RestAssured syntax.
 
     This sends a simple GET request to an API and validates the response status code.
 
-    ```
-    import static io.restassured.RestAssured.*;
+
+
+```
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class APITest {
