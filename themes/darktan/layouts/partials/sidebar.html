@@ -1,0 +1,36 @@
+<aside class="sidebar">
+  <a href="/" class="brand">
+    <div class="avatar">{{ substr .Site.Params.author 0 2 | upper }}</div>
+    <h1>{{ .Site.Params.author }}</h1>
+  </a>
+  <p class="bio">{{ .Site.Params.bio }}</p>
+
+  <div class="socials">
+    {{ with .Site.Params.github }}<a href="{{ . }}" target="_blank" rel="noopener">GitHub</a>{{ end }}
+    {{ with .Site.Params.twitter }}<a href="{{ . }}" target="_blank" rel="noopener">Twitter</a>{{ end }}
+    {{ with .Site.Params.linkedin }}<a href="{{ . }}" target="_blank" rel="noopener">LinkedIn</a>{{ end }}
+    <a href="/index.xml">RSS</a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Pages</div>
+    <nav class="nav">
+      <a href="/" {{ if .IsHome }}class="active"{{ end }}>Blog</a>
+      <a href="/projects" {{ if eq .Title "Projects" }}class="active"{{ end }}>Projects</a>
+      <a href="/til" {{ if eq .Title "TIL" }}class="active"{{ end }}>TIL</a>
+      <a href="/about" {{ if eq .Title "About" }}class="active"{{ end }}>About</a>
+    </nav>
+  </div>
+
+  {{ $tags := .Site.Taxonomies.tags }}
+  {{ if $tags }}
+  <div class="sb-section">
+    <div class="sb-label">Tags</div>
+    <div class="tags">
+      {{ range $name, $pages := $tags }}
+        <a class="tag" href="/tags/{{ $name | urlize }}/">{{ $name }} <span class="n">{{ len $pages }}</span></a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+</aside>
