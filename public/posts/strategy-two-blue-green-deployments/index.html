@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strategy Two: Blue Green Deployments · Samuel O</title>
+  <meta name="description" content="DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation." />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+  <a href="/" class="brand">
+    <div class="avatar">SA</div>
+    <h1>Samuel O</h1>
+  </a>
+  <p class="bio">DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation.</p>
+
+  <div class="socials">
+    <a href="https://github.com/fred4impact" target="_blank" rel="noopener">GitHub</a>
+    
+    
+    <a href="/index.xml">RSS</a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Pages</div>
+    <nav class="nav">
+      <a href="/" >Blog</a>
+      <a href="/projects" >Projects</a>
+      <a href="/til" >TIL</a>
+      <a href="/about" >About</a>
+    </nav>
+  </div>
+
+  
+  
+  <div class="sb-section">
+    <div class="sb-label">Tags</div>
+    <div class="tags">
+      
+        <a class="tag" href="/tags/argo-rollout/">argo-rollout <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/argocd/">argocd <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/automation/">automation <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/aws/">aws <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/blog/">blog <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/blue-green/">blue-green <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/canary/">canary <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/cicd/">cicd <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/devops/">devops <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/devsecops/">devsecops <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/git/">git <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/grafana/">grafana <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/jenkins/">jenkins <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/k6/">k6 <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/kubernetes/">kubernetes <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/learning/">learning <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/litmuschaos/">litmuschaos <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/load/">load <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/minikube/">minikube <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/monitoring/">monitoring <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/notes/">notes <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/prometheus/">prometheus <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/soaking/">soaking <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/spike/">spike <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/tech/">tech <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/tools/">tools <span class="n">1</span></a>
+      
+    </div>
+  </div>
+  
+</aside>
+
+    <main class="main">
+      
+<article class="single">
+  <header class="single-header">
+    <div class="post-meta">
+      <time class="post-date">May 8, 2026</time>
+      <span class="dot">·</span>
+      <span class="post-read">5 min read</span>
+    </div>
+    <h1 class="single-title">Strategy Two: Blue Green Deployments</h1>
+    
+    <div class="post-tags" style="margin-top: 0.75rem;">
+      <a class="post-tag" href="/tags/argo-rollout/">Argo-rollout</a><a class="post-tag" href="/tags/blue-green/">Blue-Green</a><a class="post-tag" href="/tags/minikube/">Minikube</a><a class="post-tag" href="/tags/argocd/">ArgoCD</a>
+    </div>
+    
+  </header>
+
+  <div class="prose">
+    <h1 id="introduction">Introduction</h1>
+<p>This section is the continuation of the <code>Deployment Strategies Demystified</code> were i covered the canary rolout stretagy of deployment and in other to better elaborate on the topic, i decided to split these into two section. here we will  be looking at the <code>Blue-Green Strategy</code>.</p>
+<h1 id="the-core-idea">The Core Idea</h1>
+<p><code>Blue-green</code> takes a different approach. Rather than gradually shifting traffic, you spin up a complete parallel environment with the new version fully provisioned, fully warmed up before any user ever touches it. You test it privately via a preview service, and when you are ready, you flip the switch.</p>
+<p>The <code>transition</code> is instant and <code>atomic</code>. Not 20%, not 50% <code> zero to one hundred</code> in a single operation.
+The old environment <code>(blue)</code> stays running for a configurable window after the switch, giving you a fast rollback target if something surfaces in the first few minutes after go-live.</p>
+<h2 id="example-manifest">Example Manifest</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">argoproj.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Rollout</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-bluegreen</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">nginx-bluegreen</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.24</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">strategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">blueGreen</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">activeService</span>: <span style="color:#ae81ff">nginx-active     </span> <span style="color:#75715e"># 100% of production traffic</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">previewService</span>: <span style="color:#ae81ff">nginx-preview   </span> <span style="color:#75715e"># new version — only you can see it</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">autoPromotionEnabled</span>: <span style="color:#66d9ef">false</span>      <span style="color:#75715e"># always promote manually</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">scaleDownDelaySeconds</span>: <span style="color:#ae81ff">300</span>       <span style="color:#75715e"># keep blue alive for 5 min after promotion</span>
+</span></span></code></pre></div><h2 id="the-deployment-flow">The Deployment Flow</h2>
+<p>Apply the manifests and set up two port-forwards in separate terminals:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Terminal A — production traffic (what your users see)</span>
+</span></span><span style="display:flex;"><span>kubectl port-forward svc/nginx-active 8080:80 -n nginx-bluegreen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Terminal B — preview (only visible to you, for testing)</span>
+</span></span><span style="display:flex;"><span>kubectl port-forward svc/nginx-preview 8081:80 -n nginx-bluegreen
+</span></span></code></pre></div><h2 id="now-trigger-the-rollout">Now Trigger the Rollout</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl argo rollouts set image nginx-bluegreen nginx<span style="color:#f92672">=</span>nginx:1.25 -n nginx-bluegreen
+</span></span></code></pre></div><p>At this point something important happens: <code>http://localhost:8080 </code>continues serving nginx:1.24 with zero interruption to users.</p>
+<p>Meanwhile <code>http://localhost:8081</code> is now serving nginx:1.25  a complete, fully running environment that only you are hitting. This is your window to run smoke tests, integration checks, or any manual verification you need.</p>
+<h2 id="when-you-are-satisfied-flip-the-switch">When you are satisfied, flip the switch:</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl argo rollouts promote nginx-bluegreen -n nginx-bluegreen
+</span></span></code></pre></div><p>The <code>nginx-active service</code> selector flips to the new ReplicaSet instantly. All users move to <code>nginx:1.25</code> in one operation. The old blue environment stays alive for five minutes  your rollback window  then scales down.
+When to Use <code>Blue-Green</code></p>
+<p>Reach for <code>blue-green</code> when you need a clean cutover with no mixed-version traffic. It is the right tool when your application has a breaking database schema change (old and new code cannot run simultaneously), when compliance or audit requirements demand a clean switch with a clear <code>before or after</code>, or when you want to run a full integration test suite against the new environment before any real user touches it.</p>
+<h3 id="canary-vs-blue-green-the-decision-at-a-glance">Canary vs Blue-Green: The Decision at a Glance</h3>
+<ul>
+<li>Traffic during rollout: for <code>canary</code> it Split between versions while <code>Blue-green</code> is 100% on one version at a time</li>
+<li>Rollback speed: is <code>Instant </code>(abort) for canary while Instant (within scaleDownDelay) for blue-green</li>
+<li>Resource cost is Low (partial pods)for canary, while  High (2x pods during rollout) for blue-green</li>
+<li>Mixed-version traffic is Yes both versions serve users using canary while No only <code>one version </code>is active in blue-green</li>
+<li>DB schema compatibility Must be backward compatible, while in blue-green strategy Can be a breaking change</li>
+<li>Canary is Best for Catching subtle <code>regressions</code> at scale while Hard cutovers, compliance, pre-release testing in blue-green</li>
+</ul>
+<p>The simplest heuristic: if you are asking &ldquo;can I test this on real traffic gradually?&rdquo; think <code>canary</code>. If you are asking &ldquo;can I prepare and verify the new version before anyone sees it?&rdquo; think <code>blue-green</code>.</p>
+<h2 id="the-dashboard">The Dashboard</h2>
+<p>One thing worth mentioning that makes Argo Rollouts genuinely enjoyable to use is the local dashboard. Run this in a separate terminal while you are experimenting:</p>
+<h1 id="run-the-following">Run the following</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl argo rollouts dashboard -n nginx-demo
+</span></span></code></pre></div><p>Then open <code>http://localhost:3100.</code> You get a live visual of both <code>ReplicaSets</code>, the current step, <code>traffic weights</code>, and <code>pod health</code> all updating in real time. It makes the abstract concept of traffic splitting very concrete, especially when you are learning.</p>
+<h2 id="what-i-took-away-from-this">What I Took Away From This</h2>
+<p>Before building these demos my mental model of deployment was binary  old version or new version. Argo Rollouts changed how I think about it. A deployment is not a moment, it is a process with observable stages and decision points.</p>
+<h2 id="a-few-things-that-stuck-with-me">A few things that stuck with me:</h2>
+<p>The initial deploy does not trigger canary steps. The canary steps only fire from the second deployment onwards. The first kubectl apply goes straight to 100% as the first stable revision. This trips up almost everyone the first time.</p>
+<p>abort looks scarier than it is. When you abort a rollout the status briefly shows Degraded. It is not broken — it is mid-rollback. Give it ten seconds and it returns to Healthy on the previous stable revision.
+Blue-green doubles your pod count during a rollout. With replicas: 4 you will temporarily have eight pods running.</p>
+<p>On <code>Minikube</code> with constrained resources this is worth keeping in mind. On production clusters you need to account for this in your node capacity planning. <code>scaleDownDelaySeconds</code> is your rollback window. In <code>blue-green</code>, once you promote, the clock starts on how long the old environment stays alive. Five minutes feels like a lot  until something goes wrong at minute four and you are glad it is still there.</p>
+<h2 id="next-steps">Next Steps</h2>
+<p>This walkthrough covered the fundamentals using manual promotion. The natural next step is wiring Argo Rollouts to your metrics connecting it to Prometheus so it can automatically abort a rollout if the error rate exceeds a threshold, without any human in the loop. That is where progressive delivery gets really powerful.
+If you want to go further, have a look at:</p>
+<ul>
+<li><code>Argo Rollouts Analysis and Experiments</code> — metric-driven automatic promotion/abort</li>
+<li><code>Argo Rollouts with Ingress NGINX</code> — real traffic weight splitting via ingress annotations</li>
+<li><code>Combining Argo Rollouts with ArgoCD</code> — GitOps-driven progressive delivery across multiple environments</li>
+</ul>
+<p>All the manifests and scripts from this walkthrough are available in my GitHub repository.</p>
+<p>If you found this useful or have questions, feel free to reach out. Happy deploying safely.</p>
+
+  </div>
+
+  <footer class="single-footer">
+    <a href="/" class="back-link">← Back to all posts</a>
+  </footer>
+</article>
+
+    </main>
+  </div>
+</body>
+</html>

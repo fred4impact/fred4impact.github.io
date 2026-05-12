@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Testing on Samuel O</title>
+    <link>http://localhost:1313/tags/testing/</link>
+    <description>Recent content in Testing on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 11 May 2026 21:48:38 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Real World K6 Scenarios Every Test Engineer Should Know</title>
+      <link>http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/</guid>
+      <description>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;So you&amp;rsquo;ve heard of k6, maybe written a basic script, and now you&amp;rsquo;re wondering — &lt;em&gt;how do people actually use this in practice?&lt;/em&gt; Not the toy examples from the docs, but the kind of tests you&amp;rsquo;d run against a real Django app sitting behind nginx in Docker.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

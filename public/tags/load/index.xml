@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Load on Samuel O</title>
+    <link>http://localhost:1313/tags/load/</link>
+    <description>Recent content in Load on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 11 May 2026 21:48:38 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/load/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Real World K6 Scenarios Every Test Engineer Should Know</title>
+      <link>http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/</guid>
+      <description>A hands-on guide to realistic K6 load testing scenarios every test engineer should understand and apply.</description>
+    </item>
+  </channel>
+</rss>

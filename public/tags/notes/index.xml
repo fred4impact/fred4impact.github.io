@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notes on Samuel O</title>
+    <link>http://localhost:1313/tags/notes/</link>
+    <description>Recent content in Notes on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Wed, 01 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why I started this blog</title>
+      <link>http://localhost:1313/posts/why-i-started-this-blog/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/why-i-started-this-blog/</guid>
+      <description>Every developer eventually starts a blog. Here&amp;rsquo;s why I finally did.</description>
+    </item>
+  </channel>
+</rss>

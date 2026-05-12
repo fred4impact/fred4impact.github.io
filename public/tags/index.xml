@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Samuel O</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 11 May 2026 21:48:38 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Grafana</title>
+      <link>http://localhost:1313/tags/grafana/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/tags/grafana/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>K6</title>
+      <link>http://localhost:1313/tags/k6/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/tags/k6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Load</title>
+      <link>http://localhost:1313/tags/load/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/tags/load/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Soaking</title>
+      <link>http://localhost:1313/tags/soaking/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/tags/soaking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Spike</title>
+      <link>http://localhost:1313/tags/spike/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/tags/spike/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Argo-Rollout</title>
+      <link>http://localhost:1313/tags/argo-rollout/</link>
+      <pubDate>Fri, 08 May 2026 22:50:13 +0100</pubDate>
+      <guid>http://localhost:1313/tags/argo-rollout/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ArgoCD</title>
+      <link>http://localhost:1313/tags/argocd/</link>
+      <pubDate>Fri, 08 May 2026 22:50:13 +0100</pubDate>
+      <guid>http://localhost:1313/tags/argocd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Blue-Green</title>
+      <link>http://localhost:1313/tags/blue-green/</link>
+      <pubDate>Fri, 08 May 2026 22:50:13 +0100</pubDate>
+      <guid>http://localhost:1313/tags/blue-green/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Minikube</title>
+      <link>http://localhost:1313/tags/minikube/</link>
+      <pubDate>Fri, 08 May 2026 22:50:13 +0100</pubDate>
+      <guid>http://localhost:1313/tags/minikube/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Canary</title>
+      <link>http://localhost:1313/tags/canary/</link>
+      <pubDate>Fri, 08 May 2026 15:59:51 +0100</pubDate>
+      <guid>http://localhost:1313/tags/canary/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Automation</title>
+      <link>http://localhost:1313/tags/automation/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/tags/automation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>AWS</title>
+      <link>http://localhost:1313/tags/aws/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/tags/aws/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CICD</title>
+      <link>http://localhost:1313/tags/cicd/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/tags/cicd/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DevSecOps</title>
+      <link>http://localhost:1313/tags/devsecops/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/tags/devsecops/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Jenkins</title>
+      <link>http://localhost:1313/tags/jenkins/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/tags/jenkins/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DevOps</title>
+      <link>http://localhost:1313/tags/devops/</link>
+      <pubDate>Thu, 30 Apr 2026 21:27:48 +0100</pubDate>
+      <guid>http://localhost:1313/tags/devops/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes</title>
+      <link>http://localhost:1313/tags/kubernetes/</link>
+      <pubDate>Thu, 30 Apr 2026 21:27:48 +0100</pubDate>
+      <guid>http://localhost:1313/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Litmuschaos</title>
+      <link>http://localhost:1313/tags/litmuschaos/</link>
+      <pubDate>Thu, 30 Apr 2026 21:27:48 +0100</pubDate>
+      <guid>http://localhost:1313/tags/litmuschaos/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Monitoring</title>
+      <link>http://localhost:1313/tags/monitoring/</link>
+      <pubDate>Thu, 30 Apr 2026 21:27:48 +0100</pubDate>
+      <guid>http://localhost:1313/tags/monitoring/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Prometheus</title>
+      <link>http://localhost:1313/tags/prometheus/</link>
+      <pubDate>Thu, 30 Apr 2026 21:27:48 +0100</pubDate>
+      <guid>http://localhost:1313/tags/prometheus/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Git</title>
+      <link>http://localhost:1313/tags/git/</link>
+      <pubDate>Tue, 14 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/git/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tools</title>
+      <link>http://localhost:1313/tags/tools/</link>
+      <pubDate>Tue, 14 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tools/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Blog</title>
+      <link>http://localhost:1313/tags/blog/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/blog/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Learning</title>
+      <link>http://localhost:1313/tags/learning/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/learning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Notes</title>
+      <link>http://localhost:1313/tags/notes/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/notes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tech</title>
+      <link>http://localhost:1313/tags/tech/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tech/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

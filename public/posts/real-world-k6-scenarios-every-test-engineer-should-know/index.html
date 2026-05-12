@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real World K6 Scenarios Every Test Engineer Should Know · Samuel O</title>
+  <meta name="description" content="DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation." />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+  <a href="/" class="brand">
+    <div class="avatar">SA</div>
+    <h1>Samuel O</h1>
+  </a>
+  <p class="bio">DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation.</p>
+
+  <div class="socials">
+    <a href="https://github.com/fred4impact" target="_blank" rel="noopener">GitHub</a>
+    
+    
+    <a href="/index.xml">RSS</a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Pages</div>
+    <nav class="nav">
+      <a href="/" >Blog</a>
+      <a href="/projects" >Projects</a>
+      <a href="/til" >TIL</a>
+      <a href="/about" >About</a>
+    </nav>
+  </div>
+
+  
+  
+  <div class="sb-section">
+    <div class="sb-label">Tags</div>
+    <div class="tags">
+      
+        <a class="tag" href="/tags/argo-rollout/">argo-rollout <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/argocd/">argocd <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/automation/">automation <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/aws/">aws <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/blog/">blog <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/blue-green/">blue-green <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/canary/">canary <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/cicd/">cicd <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/devops/">devops <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/devsecops/">devsecops <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/git/">git <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/grafana/">grafana <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/jenkins/">jenkins <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/k6/">k6 <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/kubernetes/">kubernetes <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/learning/">learning <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/litmuschaos/">litmuschaos <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/load/">load <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/minikube/">minikube <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/monitoring/">monitoring <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/notes/">notes <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/prometheus/">prometheus <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/soaking/">soaking <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/spike/">spike <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/tech/">tech <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/tools/">tools <span class="n">1</span></a>
+      
+    </div>
+  </div>
+  
+</aside>
+
+    <main class="main">
+      
+<article class="single">
+  <header class="single-header">
+    <div class="post-meta">
+      <time class="post-date">May 11, 2026</time>
+      <span class="dot">·</span>
+      <span class="post-read">9 min read</span>
+    </div>
+    <h1 class="single-title">Real World K6 Scenarios Every Test Engineer Should Know</h1>
+    
+    <div class="post-tags" style="margin-top: 0.75rem;">
+      <a class="post-tag" href="/tags/k6/">k6</a><a class="post-tag" href="/tags/load/">load</a><a class="post-tag" href="/tags/spike/">spike</a><a class="post-tag" href="/tags/grafana/">grafana</a><a class="post-tag" href="/tags/soaking/">soaking</a>
+    </div>
+    
+  </header>
+
+  <div class="prose">
+    <h2 id="what-is-k6">What is k6</h2>
+<p>K6 is an open-source performance testing tool used to simulate real user traffic and measure how applications behave under load. It helps engineers identify bottlenecks, improve scalability, and ensure systems remain reliable before reaching production.</p>
+<p>Types of Testing k6 is use for</p>
+<p>K6 can be used for several types of performance and reliability testing, including:</p>
+<ul>
+<li><code>Load Testing</code>  simulate normal user traffic to measure performance.</li>
+<li><code>Stress Testing</code>  push systems beyond expected limits to find breaking points.</li>
+<li><code>Spike Testing</code> test how applications handle sudden traffic surges.</li>
+<li><code>Soak/Endurance Testing</code>  run tests over long periods to detect memory leaks or degradation.</li>
+<li><code>Scalability Testing</code> evaluate how systems scale under increasing load.</li>
+<li><code>API Testing</code> — validate API response times, reliability, and throughput.</li>
+<li><code>Performance Regression Testing</code> compare performance between releases.</li>
+<li><code>Smoke Testing</code> perform lightweight checks to verify service availability.</li>
+<li><code>Browser Testing</code> test frontend performance and user interactions using browser automation.</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>So you&rsquo;ve heard of k6, maybe written a basic script, and now you&rsquo;re wondering  <em>how do people actually use this in practice?</em> Not the toy examples from the docs, but the kind of tests you&rsquo;d run against a real Django app sitting behind nginx in Docker.</p>
+<p>This post walks through exactly that. We&rsquo;ll cover three practical test scenarios  <code>spike</code>, <code>load</code>, and <code>soak</code> built against a real session-authenticated <code>Django app</code> <code>(PayWay)</code>, and wire everything up to <code>Prometheus</code> and <code>Grafana</code> so you can watch results live. By the end you&rsquo;ll have a setup you can replicate against your own app.</p>
+<h2 id="the-app-were-testing">The App We&rsquo;re Testing</h2>
+<p><code>PayWay</code> is a secure, modern <code>digital payment</code> platform built with Django. It features <code>user authentication</code>, <code>KYC verification</code>, and <code>AI-powered fraud detection</code>  the kind of system where performance and reliability aren&rsquo;t optional, they&rsquo;re core to user trust.</p>
+<p><img src="images/payway.png" alt="PayWay App"></p>
+<p>Under the hood it&rsquo;s a server-rendered Django app — no REST API, just session auth, CSRF-protected forms, and a handful of JSON endpoints. It runs behind nginx in Docker Compose. That combination of security-sensitive flows (login, KYC, fraud checks) and traditional Django form handling makes it a great real-world candidate for k6 — and a good reminder that load testing isn&rsquo;t just for microservices and JSON APIs.</p>
+<h2 id="the-endpoints-we-care-about">The endpoints we care about:</h2>
+<ul>
+<li><code>/health/</code> | None | JSON — liveness</li>
+<li><code>/ready/</code> | None | JSON — DB check</li>
+<li><code>/actuator/health/*</code> | None | JSON — aggregate</li>
+<li><code>/api/</code> | None | JSON — discovery</li>
+<li><code>/auth/login/</code> | CSRF form | Session cookie</li>
+<li><code>/auth/api/security/summary/</code> | Session cookie | JSON</li>
+<li><code>/auth/api/security/events/</code> | Session cookie | JSON</li>
+<li><code>/account/notifications/count/</code> | Session + AJAX header | JSON</li>
+</ul>
+<p>Right away you can see why a pure REST load tester would struggle — login requires CSRF token extraction, and the notification endpoint needs a specific <code>X-Requested-With</code> header. k6 handles all of this cleanly.</p>
+<h2 id="what-is-requires-for-the-demo">What is requires for the Demo</h2>
+<ul>
+<li>K6 installed</li>
+<li>Docker</li>
+<li>Prometheus</li>
+<li>Grafana</li>
+<li>Payway Application</li>
+<li>Docker Compose</li>
+</ul>
+<h2 id="step-1--add-prometheus-and-grafana-to-docker-compose">Step 1 — Add Prometheus and Grafana to Docker Compose</h2>
+<p>Before we run any tests, we want somewhere to send metrics. Add these services to your <code>docker-compose.yml</code>:</p>
+<h2 id="how-k6-pushes-metrics-to-prometheus">How k6 Pushes Metrics to Prometheus</h2>
+<p>k6 has a built-in Prometheus remote-write output. You don&rsquo;t need a separate exporter — just prefix your run command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://localhost:9090/api/v1/write <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw test-smoke.js
+</span></span></code></pre></div><p>k6 pushes metrics directly to Prometheus, which Grafana then queries. Clean and simple.</p>
+<hr>
+<h2 id="a-utility-pattern-worth-knowing">A Utility Pattern Worth Knowing</h2>
+<p>All three tests share a small <code>jsonPath</code> helper. Worth understanding because k6 returns raw responses, not parsed objects:</p>
+<hr>
+<h2 id="scenario-1--spike-test-health-endpoints">Scenario 1 — Spike Test: Health Endpoints</h2>
+<p><strong>What it tests:</strong> Can nginx and Django absorb a sudden burst of traffic without dropping connections?</p>
+<p><strong>Why start here:</strong> These endpoints are no-auth, lightweight, and respond in milliseconds. Running this first gives you a performance baseline before you touch anything stateful.</p>
+<p><strong>The scenario:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">stages</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;10s&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>  },  <span style="color:#75715e">// warm up
+</span></span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;10s&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span> },  <span style="color:#75715e">// sudden spike
+</span></span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;30s&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span> },  <span style="color:#75715e">// hold
+</span></span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;10s&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>  },  <span style="color:#75715e">// recover
+</span></span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;10s&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>  },  <span style="color:#75715e">// ramp down
+</span></span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">thresholds</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">checks</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;rate&gt;0.90&#39;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http_req_failed</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;rate&lt;0.10&#39;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http_req_duration</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;p(95)&lt;500&#39;</span>],  <span style="color:#75715e">// health checks should be very fast
+</span></span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="test">Test</h2>
+<p>The test hits all six health/discovery endpoints in a single iteration — <code>/health/</code>, <code>/ready/</code>, <code>/actuator/health/</code>, <code>/actuator/health/liveness/</code>, <code>/actuator/health/readiness/</code>, and <code>/api/</code>. Each in its own <code>group()</code> so you get per-group timing in the output.</p>
+<p>A key thing to check: <strong><code>/ready/</code> might return 503 during the spike.</strong> That&rsquo;s valid — it means the DB is struggling, not that the test is broken. The check is written to accept both:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">check</span>(<span style="color:#a6e22e">res</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;ready reachable&#39;</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">200</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">503</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;ready DB up&#39;</span><span style="color:#f92672">:</span>     (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">200</span>,  <span style="color:#75715e">// this one will flag issues
+</span></span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><strong>Run it:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://localhost:9090/api/v1/write <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw test-spike-health.js
+</span></span></code></pre></div><p>Total runtime: ~1.5 minutes. Watch the Grafana dashboard — you&rsquo;ll see the VU count jump sharply and the p95 response time spike and recover.</p>
+<hr>
+<h2 id="scenario-2--load-test-full-login-flow">Scenario 2 — Load Test: Full Login Flow</h2>
+<p><strong>What it tests:</strong> Sustained concurrent users doing a real user journey — login, security check, notification poll.</p>
+<p><strong>Why this matters:</strong> This is your most realistic test. It exercises CSRF token extraction, form POST, session cookie handling, and two authenticated JSON endpoints. It&rsquo;s also where Django&rsquo;s session backend and DB connection pool will start to show strain.</p>
+<p><strong>The login flow has four steps:</strong></p>
+<p><strong>Step 1 — Fetch the login page to get the CSRF token:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">loginPage</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">BASE</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/auth/login/`</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">m</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">loginPage</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">match</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">/name=&#34;csrfmiddlewaretoken&#34; value=&#34;([^&#34;]+)&#34;/</span>
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">csrftoken</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">m</span>[<span style="color:#ae81ff">1</span>];
+</span></span></code></pre></div><p>This is something most REST-based load tools make awkward. In k6 it&rsquo;s just a regex on the response body.</p>
+<p><strong>Step 2 — POST credentials with the CSRF token:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">body</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">`csrfmiddlewaretoken=</span><span style="color:#e6db74">${</span>encodeURIComponent(<span style="color:#a6e22e">csrftoken</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">`email=</span><span style="color:#e6db74">${</span>encodeURIComponent(<span style="color:#a6e22e">email</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">`password=</span><span style="color:#e6db74">${</span>encodeURIComponent(<span style="color:#a6e22e">password</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
+</span></span><span style="display:flex;"><span>].<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39;&amp;&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">loginRes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">BASE</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/auth/login/`</span>, <span style="color:#a6e22e">body</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/x-www-form-urlencoded&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Referer&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">BASE</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/auth/login/`</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><strong>Step 3 — Extract the session cookie:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">c</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">loginRes</span>.<span style="color:#a6e22e">cookies</span>.<span style="color:#a6e22e">sessionid</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sessionId</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">c</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">c</span>[<span style="color:#ae81ff">0</span>].<span style="color:#a6e22e">value</span>;
+</span></span></code></pre></div><p><strong>Step 4 — Use the session for authenticated calls:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">BASE</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/auth/api/security/summary/`</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">Cookie</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`sessionid=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">sessionId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span> },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>And for the notification endpoint, note the extra header — without it you get a 400:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">res</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">BASE</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/account/notifications/count/`</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Cookie&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`sessionid=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">sessionId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;X-Requested-With&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;XMLHttpRequest&#39;</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><strong>The scenario ramps in two steps</strong> — 5 VUs for 5 minutes, then 10 VUs for another 5 minutes. On Docker this is enough to expose session pool issues. Small <code>sleep()</code> calls between steps simulate a real user reading the page:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">stages</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;1m&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>  },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;5m&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>  },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;2m&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;5m&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span> },
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;1m&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>  },
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p><strong>Run it:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://localhost:9090/api/v1/write <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       -e TEST_EMAIL<span style="color:#f92672">=</span>user@example.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       -e TEST_PASSWORD<span style="color:#f92672">=</span>secret <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       test-load-login.js
+</span></span></code></pre></div><p><strong>One important caveat:</strong> this only works for accounts without 2FA. The script detects a missing session cookie and exits the iteration cleanly with a logged error — it won&rsquo;t silently mark checks as passed.</p>
+<hr>
+<h2 id="scenario-3--soak-test-database-endurance">Scenario 3 — Soak Test: Database Endurance</h2>
+<p><strong>What it tests:</strong> Does the DB connection pool hold up over time? Are there memory leaks?</p>
+<p><strong>Why <code>/ready/</code> specifically:</strong> This endpoint actively checks DB connectivity on every hit. Unlike <code>/health/</code> (which is process-only), <code>/ready/</code> creates a real DB connection. Running it at low-but-steady load for 10+ minutes is one of the best ways to surface connection exhaustion in Docker — Postgres has a default <code>max_connections</code> of 100, and Django&rsquo;s connection pool can leak under sustained load if not configured correctly.</p>
+<p><strong>The scenario is deliberately slow:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">options</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">stages</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;2m&#39;</span>,  <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span> },   <span style="color:#75715e">// ramp up gently
+</span></span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;10m&#39;</span>, <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span> },   <span style="color:#75715e">// hold — this is the soak window
+</span></span></span><span style="display:flex;"><span>    { <span style="color:#a6e22e">duration</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;1m&#39;</span>,  <span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> },   <span style="color:#75715e">// ramp down
+</span></span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">thresholds</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">checks</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;rate&gt;0.95&#39;</span>],             <span style="color:#75715e">// tighter than the other tests
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http_req_failed</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;rate&lt;0.05&#39;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http_req_duration</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;p(95)&lt;800&#39;</span>],
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>And the iteration sleep is longer — 2 seconds instead of 0.1:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">2</span>);  <span style="color:#75715e">// slow cadence — this is a soak, not a hammer
+</span></span></span></code></pre></div><p><strong>What to watch in Grafana:</strong> The p95 line on the duration chart. In a healthy setup it should be flat across the 10-minute hold. If you see it creeping up gradually — even from 50ms to 200ms — that&rsquo;s a sign of connection pool degradation or GC pressure. A sudden jump to 503s means Postgres has hit <code>max_connections</code>.</p>
+<p><strong>Run it:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://localhost:9090/api/v1/write <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw test-soak-ready.js
+</span></span></code></pre></div><hr>
+<h2 id="the-grafana-dashboard">The Grafana Dashboard</h2>
+<p>The provisioned dashboard has 10 panels. The ones worth paying attention to during a test run:</p>
+<p><strong>Check Pass Rate</strong> — your first alert. If this drops below 85% something is actually broken, not just slow.</p>
+<p><strong>p95 Response Time by URL</strong> — breaks latency down per endpoint. Useful for spotting whether slowness is in the login POST (CSRF + session creation) vs the JSON APIs.</p>
+<p><strong>Request Phase Breakdown</strong> — splits each request into connect / waiting (TTFB) / receiving / sending. If <em>connecting</em> is high, nginx is the bottleneck. If <em>waiting</em> is high, Django or the DB is.</p>
+<p><strong>Active VUs</strong> — sanity check that your stages are executing as expected.</p>
+<hr>
+<h2 id="running-on-cloud-later">Running on Cloud Later</h2>
+<p>When you&rsquo;re ready to move beyond Docker, the only changes are the <code>options</code> block (higher VUs) and <code>BASE_URL</code>. Everything else — CSRF extraction, session handling, AJAX headers — stays identical.</p>
+<p>Each test file has the cloud config commented out at the top:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// ─── Cloud options ─────────────────────────────────
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// export const options = {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   stages: [
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//     { duration: &#39;2m&#39;,  target: 25 },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//     { duration: &#39;8m&#39;,  target: 25 },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//     { duration: &#39;2m&#39;,  target: 50 },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//     { duration: &#39;8m&#39;,  target: 50 },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//     { duration: &#39;2m&#39;,  target: 0  },
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//   ],
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// };
+</span></span></span></code></pre></div><p>Just uncomment, comment out the Docker block, and pass your real URL:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://your-prometheus:9090/api/v1/write <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       -e BASE_URL<span style="color:#f92672">=</span>https://your-app.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       -e TEST_EMAIL<span style="color:#f92672">=</span>user@example.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       -e TEST_PASSWORD<span style="color:#f92672">=</span>secret <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>       test-load-login.js
+</span></span></code></pre></div><hr>
+<h2 id="wrapping-up">Wrapping Up</h2>
+<p>The three scenarios cover different failure modes:</p>
+<ul>
+<li><strong>Spike</strong> → nginx connection handling under burst traffic</li>
+<li><strong>Load</strong> → session backend and DB pool under sustained concurrent users</li>
+<li><strong>Soak</strong> → slow degradation and connection leaks over time</li>
+</ul>
+<p>Together they give you a solid picture of how your app behaves under pressure — not just whether it works, but <em>how it fails</em> and <em>where</em> the bottleneck is. The Grafana dashboard makes that visible in real time instead of buried in terminal output.</p>
+<p>The full test files and monitoring config are available in the project repo. If you hit issues with CSRF extraction or the AJAX header on notifications — those are the two most common gotchas on Django apps — check the API guide first, the answers are usually there.</p>
+<p>Happy testing.</p>
+
+  </div>
+
+  <footer class="single-footer">
+    <a href="/" class="back-link">← Back to all posts</a>
+  </footer>
+</article>
+
+    </main>
+  </div>
+</body>
+</html>

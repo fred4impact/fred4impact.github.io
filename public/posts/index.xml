@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Samuel O</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Mon, 11 May 2026 21:48:38 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Real World K6 Scenarios Every Test Engineer Should Know</title>
+      <link>http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/</link>
+      <pubDate>Mon, 11 May 2026 21:48:38 +0100</pubDate>
+      <guid>http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/</guid>
+      <description>A hands-on guide to realistic K6 load testing scenarios every test engineer should understand and apply.</description>
+    </item>
+    <item>
+      <title>Strategy Two: Blue Green Deployments</title>
+      <link>http://localhost:1313/posts/strategy-two-blue-green-deployments/</link>
+      <pubDate>Fri, 08 May 2026 22:50:13 +0100</pubDate>
+      <guid>http://localhost:1313/posts/strategy-two-blue-green-deployments/</guid>
+      <description>A Practical Argo Rollouts Walkthrough</description>
+    </item>
+    <item>
+      <title>Deployment Strategies Demystified</title>
+      <link>http://localhost:1313/posts/deployment-strategies-demystified/</link>
+      <pubDate>Fri, 08 May 2026 15:59:51 +0100</pubDate>
+      <guid>http://localhost:1313/posts/deployment-strategies-demystified/</guid>
+      <description>A Practical Argo Rollouts Walkthrough</description>
+    </item>
+    <item>
+      <title>Building Intelligent CICD Pipelines</title>
+      <link>http://localhost:1313/posts/building-intelligent-cicd-pipelines/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/posts/building-intelligent-cicd-pipelines/</guid>
+      <description>Embedding Quality, Security, and Automation Across Agile Delivery and the SDLC</description>
+    </item>
+    <item>
+      <title>Chaos Engineering Meets Observability</title>
+      <link>http://localhost:1313/posts/chaos-engineering-meets-observability/</link>
+      <pubDate>Thu, 30 Apr 2026 21:27:48 +0100</pubDate>
+      <guid>http://localhost:1313/posts/chaos-engineering-meets-observability/</guid>
+      <description>Building Reliable Kubernetes Systems</description>
+    </item>
+    <item>
+      <title>Things I wish I knew about Git</title>
+      <link>http://localhost:1313/posts/things-i-wish-i-knew-about-git/</link>
+      <pubDate>Tue, 14 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/things-i-wish-i-knew-about-git/</guid>
+      <description>After years of using Git daily, here are the commands and concepts that actually changed how I work.</description>
+    </item>
+    <item>
+      <title>Why I started this blog</title>
+      <link>http://localhost:1313/posts/why-i-started-this-blog/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/why-i-started-this-blog/</guid>
+      <description>Every developer eventually starts a blog. Here&amp;rsquo;s why I finally did.</description>
+    </item>
+  </channel>
+</rss>
