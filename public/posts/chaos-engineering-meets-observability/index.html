@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chaos Engineering Meets Observability · Samuel O</title>
+  <meta name="description" content="DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation." />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+  <a href="/" class="brand">
+    <div class="avatar">SA</div>
+    <h1>Samuel O</h1>
+  </a>
+  <p class="bio">DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation.</p>
+
+  <div class="socials">
+    <a href="https://github.com/fred4impact" target="_blank" rel="noopener">GitHub</a>
+    
+    
+    <a href="/index.xml">RSS</a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-label">Pages</div>
+    <nav class="nav">
+      <a href="/" >Blog</a>
+      <a href="/projects" >Projects</a>
+      <a href="/til" >TIL</a>
+      <a href="/about" >About</a>
+    </nav>
+  </div>
+
+  
+  
+  <div class="sb-section">
+    <div class="sb-label">Tags</div>
+    <div class="tags">
+      
+        <a class="tag" href="/tags/argo-rollout/">argo-rollout <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/argocd/">argocd <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/automation/">automation <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/aws/">aws <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/blog/">blog <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/blue-green/">blue-green <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/canary/">canary <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/cicd/">cicd <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/devops/">devops <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/devsecops/">devsecops <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/git/">git <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/grafana/">grafana <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/jenkins/">jenkins <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/k6/">k6 <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/kubernetes/">kubernetes <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/learning/">learning <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/litmuschaos/">litmuschaos <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/load/">load <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/minikube/">minikube <span class="n">2</span></a>
+      
+        <a class="tag" href="/tags/monitoring/">monitoring <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/notes/">notes <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/prometheus/">prometheus <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/soaking/">soaking <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/spike/">spike <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/tech/">tech <span class="n">1</span></a>
+      
+        <a class="tag" href="/tags/tools/">tools <span class="n">1</span></a>
+      
+    </div>
+  </div>
+  
+</aside>
+
+    <main class="main">
+      
+<article class="single">
+  <header class="single-header">
+    <div class="post-meta">
+      <time class="post-date">Apr 30, 2026</time>
+      <span class="dot">·</span>
+      <span class="post-read">3 min read</span>
+    </div>
+    <h1 class="single-title">Chaos Engineering Meets Observability</h1>
+    
+    <div class="post-tags" style="margin-top: 0.75rem;">
+      <a class="post-tag" href="/tags/aws/">AWS</a><a class="post-tag" href="/tags/litmuschaos/">litmuschaos</a><a class="post-tag" href="/tags/prometheus/">Prometheus</a><a class="post-tag" href="/tags/kubernetes/">kubernetes</a><a class="post-tag" href="/tags/devops/">DevOps</a><a class="post-tag" href="/tags/monitoring/">Monitoring</a>
+    </div>
+    
+  </header>
+
+  <div class="prose">
+    <h2 id="introduction-a-real-problem-we-often-ignore">Introduction: A Real Problem We Often Ignore.</h2>
+<h2 id="imagine-this">Imagine this:</h2>
+<p>It’s a normal Friday evening, and your application is running smoothly in production. Users are actively placing orders, payments are being processed, and dashboards look healthy.</p>
+<p>Suddenly, one <code> Kubernetes node becomes unavailable</code>.</p>
+<p>A few <code>pods</code> restart unexpectedly. <code>Database</code> connections begin timing out. <code>API response</code> times increase. Customers start reporting slow page loads, and within minutes, alerts begin flooding the operations team.</p>
+<p>The question is no longer: <code>“Why did this happen?”</code> but  <code>“How quickly can we recover ?”</code></p>
+<p>This situation is more common than most teams expect.</p>
+<p>Modern applications rely on multiple services, containers, databases, and network dependencies. Even a small failure can trigger a chain reaction across the platform.</p>
+<p>The real danger is not failure itself—it is discovering system weaknesses for the first time in production.</p>
+<p>So the better question becomes: How do we test failure before failure tests us?</p>
+<h3 id="the-solution--chaos-engineering-plus-observability">The Solution:  <code>Chaos Engineering plus Observability</code></h3>
+<p>The answer is not to wait for outages but The answer is to simulate them safely. This is where Chaos Engineering and Observability work together.</p>
+<h3 id="chaos-engineering-testing-failure-on-purpose">Chaos Engineering: <code>Testing Failure on Purpose</code></h3>
+<p>Chaos Engineering is the practice of intentionally introducing controlled failures into systems to test resilience.</p>
+<p>Instead of waiting for real incidents, teams proactively simulate problems like:</p>
+<ul>
+<li><code>Pod deletion</code></li>
+<li><code>Container crashes</code></li>
+<li><code>Network latency</code></li>
+<li><code>Node failures</code></li>
+<li><code>Database downtime</code></li>
+<li><code>Resource exhaustion</code></li>
+</ul>
+<p>Using tools like <code>LitmusChaos</code>, these failures can be tested safely in development, staging, or pre-production environments.</p>
+<h2 id="the-goal-is-simple">The goal is simple:</h2>
+<p>Break small things on purpose so big things don’t break unexpectedly.</p>
+<h3 id="observability-seeing-what-happens-during-failure">Observability: <code>Seeing What Happens During Failure</code></h3>
+<p>Creating failures is only useful if we can clearly understand the impact.</p>
+<p>This is where observability becomes critical.</p>
+<h3 id="using">Using:</h3>
+<ul>
+<li><code> Prometheus for metrics</code></li>
+<li><code>Grafana for dashboards</code></li>
+<li><code>Loki for logs</code></li>
+<li><code>Promtail for log collection</code></li>
+</ul>
+<h3 id="we-can-observe-the-following-metircs">We can observe the following metircs:</h3>
+<ul>
+<li><code>CPU and memory spikes</code></li>
+<li><code>Pod restarts</code></li>
+<li><code>Error rates</code></li>
+<li><code>Latency increases</code></li>
+<li><code>Failed chaos experiments</code></li>
+<li><code>Recovery timelines</code></li>
+</ul>
+<p>And this helps teams answer:</p>
+<h3 id="did-the-system-recover-automatically-or-did-it-require-manual-intervention-">Did the system recover automatically, or did it require manual intervention ?</h3>
+<p>Without observability, <code>chaos testing</code> becomes guesswork but With observability, it becomes engineering.</p>
+<p>To explore further lets setup a simple dev enviroments and deploy deploy a demo app to simulate the chaos testing</p>
+<h2 id="our-demo-setup">Our Demo Setup</h2>
+<p>To explore this in practice, we built a complete Kubernetes testing environment using:</p>
+<ul>
+<li><code>EC2 instance</code></li>
+<li><code>Kind Kubernetes cluster</code></li>
+<li><code>Calico CNI</code></li>
+<li><code>Prometheus + Grafana</code></li>
+<li><code>Loki + Promtail</code></li>
+<li><code>LitmusChaos</code></li>
+<li><code>Demo frontend/backend application</code></li>
+</ul>
+<h2 id="watch-the-demo-tutorial">Watch the Demo Tutorial</h2>
+<p><a href="https://www.youtube.com/watch?v=abc123xyz">Watch my DevOps Tutorial</a></p>
+<p>This allowed us to simulate failures and monitor exactly how the system behaved under stress.</p>
+<h2 id="for-example">For example:</h2>
+<p>When a pod-delete experiment was triggered, we could immediately see:</p>
+<ul>
+<li><code>Pod restart timelines</code></li>
+<li><code>Application response delays</code></li>
+<li><code>System logs from affected services</code></li>
+<li><code>Recovery speed inside Grafana dashboards</code></li>
+</ul>
+<p>This gave us real confidence not assumptions.</p>
+<h2 id="take-home--lessons">Take home  Lessons</h2>
+<h3 id="1-failure-is-not-optional---every-system-fails-eventually">1. Failure is Not Optional :  Every system fails eventually,</h3>
+<p>The goal is not preventing all <code>failures</code>.</p>
+<p>The goal is <code>surviving</code> them gracefully.</p>
+<h3 id="2-production-should-not-be-the-first-test">2. Production Should Not Be the First Test</h3>
+<p>If the first time you test resilience is during a real outage, the cost is already too high.</p>
+<p><code>Chaos Engineering helps move that learning earlier</code>.</p>
+<h3 id="3-monitoring-without-failure-testing-creates-false-confidence">3. Monitoring Without Failure Testing Creates False Confidence</h3>
+<p>Green dashboards do not prove resilience.</p>
+<p>Controlled failure does.</p>
+<h3 id="4-start-small-learn-fast">4. Start Small, Learn Fast</h3>
+<p>Begin with <code>low blast radius</code> tests:</p>
+<ul>
+<li><code>delete one pod</code></li>
+<li><code>restart one container</code></li>
+<li><code> simulate short network latency</code></li>
+</ul>
+<p>Small experiments create safer learning.</p>
+<h3 id="5-reliability-is-a-culture">5. Reliability is a Culture</h3>
+<p>Chaos Engineering is not just a tool. It is a <code>mindset</code>,
+Prepare before failure arrives.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p><code>Chaos Engineering and Observability</code> together create truly <code>reliable</code> systems. By combining <code>LitmusChaos</code> with <code>Grafana</code>, <code>Loki</code>, and <code>Prometheus</code>, teams can move from reactive troubleshooting to proactive <code>resilience</code> engineering.</p>
+<p>Instead of asking: <code>“What happens if production fails ?”</code>  lets  start asking <code>“How ready are we when it does ?”</code>.</p>
+<p>That shift in mindset is what builds modern, resilient platforms.</p>
+<p>Thank you for reading it through.</p>
+
+  </div>
+
+  <footer class="single-footer">
+    <a href="/" class="back-link">← Back to all posts</a>
+  </footer>
+</article>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -4,6 +4,7 @@ title = "Samuel O"
 theme = "darktan"
 paginate = 8
 
+
 [params]
   author = "Samuel O"
   bio = "DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation."

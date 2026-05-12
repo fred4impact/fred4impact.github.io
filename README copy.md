@@ -54,7 +54,7 @@ Set `draft: false` when ready to publish.
    git add .
    git commit -m "initial commit"
    git remote add origin https://github.com/fred4impact/fred4impact.github.io.git
-   git push -u origin main
+   git push -u origin
    ```
 3. Go to your repo → **Settings** → **Pages** → set Source to **GitHub Actions**
 4. Every push to `main` automatically deploys your site

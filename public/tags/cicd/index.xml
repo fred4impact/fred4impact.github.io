@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CICD on Samuel O</title>
+    <link>http://localhost:1313/tags/cicd/</link>
+    <description>Recent content in CICD on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Thu, 30 Apr 2026 22:14:39 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cicd/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Intelligent CICD Pipelines</title>
+      <link>http://localhost:1313/posts/building-intelligent-cicd-pipelines/</link>
+      <pubDate>Thu, 30 Apr 2026 22:14:39 +0100</pubDate>
+      <guid>http://localhost:1313/posts/building-intelligent-cicd-pipelines/</guid>
+      <description>Embedding Quality, Security, and Automation Across Agile Delivery and the SDLC</description>
+    </item>
+  </channel>
+</rss>
