@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Demos on Samuel O</title>
+    <link>http://localhost:1313/demos/</link>
+    <description>Recent content in Demos on Samuel O</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Fri, 15 May 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/demos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy Nginx on Kubernetes</title>
+      <link>http://localhost:1313/demos/kubernetes-nginx/</link>
+      <pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/demos/kubernetes-nginx/</guid>
+      <description>&lt;h1 id=&#34;-kubernetes-nginx-deployment&#34;&gt;🚀 Kubernetes Nginx Deployment&lt;/h1&gt;
+&lt;h2 id=&#34;-goal&#34;&gt;🧠 Goal&lt;/h2&gt;
+&lt;p&gt;Deploy a simple Nginx app on a Kubernetes cluster.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-architecture&#34;&gt;📐 Architecture&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;graph TD
+  User --&amp;gt; Ingress
+  Ingress --&amp;gt; Service
+  Service --&amp;gt; Pod
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img alt=&#34;Demo App&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/images/payway.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

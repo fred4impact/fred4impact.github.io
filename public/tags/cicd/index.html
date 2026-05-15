@@ -1,137 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CICD · Samuel O</title>
-  <meta name="description" content="DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation." />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>CICD | Samuel O</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="Samuel O">
+<link rel="canonical" href="http://localhost:1313/tags/cicd/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/cicd/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/cicd/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
 </head>
-<body>
-  <div class="layout">
-    <aside class="sidebar">
-  <a href="/" class="brand">
-    <div class="avatar">SA</div>
-    <h1>Samuel O</h1>
-  </a>
-  <p class="bio">DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation.</p>
-
-  <div class="socials">
-    <a href="https://github.com/fred4impact" target="_blank" rel="noopener">GitHub</a>
-    
-    
-    <a href="/index.xml">RSS</a>
-  </div>
-
-  <div class="sb-section">
-    <div class="sb-label">Pages</div>
-    <nav class="nav">
-      <a href="/" >Blog</a>
-      <a href="/projects" >Projects</a>
-      <a href="/til" >TIL</a>
-      <a href="/about" >About</a>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Samuel O (Alt + H)">Samuel O</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
     </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    CICD
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Building Intelligent CICD Pipelines
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Embedding Quality, Security, and Automation Across Agile Delivery and the SDLC</p>
   </div>
+  <footer class="entry-footer">
 
-  
-  
-  <div class="sb-section">
-    <div class="sb-label">Tags</div>
-    <div class="tags">
-      
-        <a class="tag" href="/tags/argo-rollout/">argo-rollout <span class="n">2</span></a>
-      
-        <a class="tag" href="/tags/argocd/">argocd <span class="n">2</span></a>
-      
-        <a class="tag" href="/tags/automation/">automation <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/aws/">aws <span class="n">2</span></a>
-      
-        <a class="tag" href="/tags/blog/">blog <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/blue-green/">blue-green <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/canary/">canary <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/cicd/">cicd <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/devops/">devops <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/devsecops/">devsecops <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/git/">git <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/grafana/">grafana <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/jenkins/">jenkins <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/k6/">k6 <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/kubernetes/">kubernetes <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/learning/">learning <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/litmuschaos/">litmuschaos <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/load/">load <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/minikube/">minikube <span class="n">2</span></a>
-      
-        <a class="tag" href="/tags/monitoring/">monitoring <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/notes/">notes <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/prometheus/">prometheus <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/soaking/">soaking <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/spike/">spike <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/tech/">tech <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/tools/">tools <span class="n">1</span></a>
-      
-    </div>
-  </div>
-  
-</aside>
-
-    <main class="main">
-      
-<div class="main-header">
-  <span>Blog</span>
-  <span>8 posts</span>
-</div>
-
-<div class="post-list">
-  
-  <article class="post">
-    <div class="post-meta">
-      <time class="post-date">Apr 30, 2026</time>
-      
-      <span class="dot">·</span>
-      <span class="post-read">0 min read</span>
-      
-    </div>
-    <a class="post-title" href="http://localhost:1313/posts/building-intelligent-cicd-pipelines/">Building Intelligent CICD Pipelines</a>
-    
-    <p class="post-excerpt">Embedding Quality, Security, and Automation Across Agile Delivery and the SDLC</p>
-    
-    
-    <div class="post-tags">
-      <a class="post-tag" href="/tags/aws/">AWS</a><a class="post-tag" href="/tags/devsecops/">DevSecOps</a><a class="post-tag" href="/tags/jenkins/">Jenkins</a><a class="post-tag" href="/tags/cicd/">CICD</a><a class="post-tag" href="/tags/automation/">Automation</a>
-    </div>
-    
-  </article>
-  
-</div>
-
-
-
+<span title='2026-04-30 22:14:39 +0100 BST'>30 April 2026</span>&nbsp;·&nbsp;<span>Samuel O</span></footer>
+  <a class="entry-link" aria-label="post link to Building Intelligent CICD Pipelines" href="http://localhost:1313/posts/building-intelligent-cicd-pipelines/"></a>
+</article>
     </main>
-  </div>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Samuel O</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
 </body>
+
 </html>

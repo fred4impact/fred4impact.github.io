@@ -13,8 +13,12 @@ Deploy a simple Nginx app on a Kubernetes cluster.
 
 ## 📐 Architecture
 
-```mermaid
+``` mermaid
 graph TD
   User --> Ingress
   Ingress --> Service
   Service --> Pod
+```
+
+
+![Demo App](/images/payway.png)   
