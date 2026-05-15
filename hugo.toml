@@ -1,9 +1,8 @@
 baseURL = "https://fred4impact.github.io/"
 languageCode = "en-gb"
 title = "Samuel O"
-theme = "darktan"
+theme = "PaperMod"
 paginate = 8
-
 
 [params]
   author = "Samuel O"
@@ -11,8 +10,5 @@ paginate = 8
 
   github = "https://github.com/fred4impact"
 
-
 [taxonomies]
   tag = "tags"
-
-theme: ["PaperMod"]
