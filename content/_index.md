@@ -4,25 +4,66 @@ title: "Samuel O - DevOps Portfolio"
 
 # 👋 Hi, I'm Samuel
 
-DevOps enthusiast focused on cloud infrastructure, automation, CI/CD, and Kubernetes.
+DevOps enthusiast focused on cloud infrastructure, Kubernetes, automation, CI/CD, and observability engineering.
 
 ---
 
-## 🚀 What I do
+## 🚀 Core Focus Areas
 
 - Kubernetes deployments & scaling
-- CI/CD pipelines (GitHub Actions)
+- CI/CD automation with GitHub Actions
 - Infrastructure as Code (Terraform)
-- Monitoring (Prometheus + Grafana)
+- Monitoring with Prometheus & Grafana
+- Chaos Engineering & Resilience Testing
 
 ---
 
-## 📌 Projects & Labs
+## 🧪 Featured Demos
 
-- Kubernetes Nginx Deployment
-- CI/CD Pipeline Automation
-- Terraform AWS Infrastructure
-- Monitoring Stack Setup
+<div class="article-card">
+
+### Kubernetes Nginx Deployment
+
+Deploying scalable Nginx workloads into Kubernetes with services and ingress routing.
+
+👉 Explore Demo: [Kubernetes Demo](/demos/)
+
+</div>
+
+<div class="article-card">
+
+### CI/CD Pipeline Automation
+
+Automating deployments using GitHub Actions and container workflows.
+
+👉 Explore Demo: [CI/CD Demo](/demos/)
+
+</div>
+
+<div class="article-card">
+
+### Monitoring Stack Setup
+
+Deploying Prometheus and Grafana for Kubernetes observability.
+
+👉 Explore Demo: [Monitoring Demo](/demos/)
+
+</div>
+
+---
+
+## ✍️ Featured Articles
+
+<div class="article-card">
+
+### Chaos Engineering with LitmusChaos
+
+Understanding how to test Kubernetes resilience before production failures happen.
+
+👉 Read Article:
+https://medium.com/@runtesting4me/litmuschaos-and-chaos-testing-building-system-resilience-before-production-b967d52a413b
+
+</div>
 
 ---
 
@@ -30,4 +71,6 @@ DevOps enthusiast focused on cloud infrastructure, automation, CI/CD, and Kubern
 
 - [DevOps Notes](/devops/)
 - [Hands-on Demos](/demos/)
+- [Technical Writing](/writings/)
 - [Cheatsheets](/cheatsheets/)
+- [GitHub Projects](https://github.com/fred4impact)
