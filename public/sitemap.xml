@@ -42,10 +42,19 @@
     <lastmod>2026-05-11T21:48:38+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/argo-rollout/</loc>
-    <lastmod>2026-05-08T15:59:51+01:00</lastmod>
+    <lastmod>2026-05-08T22:50:13+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/argocd/</loc>
-    <lastmod>2026-05-08T15:59:51+01:00</lastmod>
+    <lastmod>2026-05-08T22:50:13+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/blue-green/</loc>
+    <lastmod>2026-05-08T22:50:13+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/minikube/</loc>
+    <lastmod>2026-05-08T22:50:13+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/strategy-two-blue-green-deployments/</loc>
+    <lastmod>2026-05-08T22:50:13+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/canary/</loc>
     <lastmod>2026-05-08T15:59:51+01:00</lastmod>
@@ -53,8 +62,47 @@
     <loc>http://localhost:1313/posts/deployment-strategies-demystified/</loc>
     <lastmod>2026-05-08T15:59:51+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/minikube/</loc>
-    <lastmod>2026-05-08T15:59:51+01:00</lastmod>
+    <loc>http://localhost:1313/tags/automation/</loc>
+    <lastmod>2026-04-30T22:14:39+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/aws/</loc>
+    <lastmod>2026-04-30T22:14:39+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/building-intelligent-cicd-pipelines/</loc>
+    <lastmod>2026-04-30T22:14:39+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/cicd/</loc>
+    <lastmod>2026-04-30T22:14:39+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/devsecops/</loc>
+    <lastmod>2026-04-30T22:14:39+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/jenkins/</loc>
+    <lastmod>2026-04-30T22:14:39+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/chaos-engineering-meets-observability/</loc>
+    <lastmod>2026-04-30T21:27:48+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/devops/</loc>
+    <lastmod>2026-04-30T21:27:48+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/litmuschaos/</loc>
+    <lastmod>2026-04-30T21:27:48+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/monitoring/</loc>
+    <lastmod>2026-04-30T21:27:48+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/prometheus/</loc>
+    <lastmod>2026-04-30T21:27:48+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/git/</loc>
+    <lastmod>2026-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/things-i-wish-i-knew-about-git/</loc>
+    <lastmod>2026-04-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/tools/</loc>
+    <lastmod>2026-04-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/blog/</loc>
     <lastmod>2026-04-01T00:00:00+00:00</lastmod>
