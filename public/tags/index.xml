@@ -183,19 +183,5 @@
       <guid>http://localhost:1313/tags/tech/</guid>
       <description></description>
     </item>
-    <item>
-      <title>Git</title>
-      <link>http://localhost:1313/tags/git/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/git/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Tools</title>
-      <link>http://localhost:1313/tags/tools/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/tools/</guid>
-      <description></description>
-    </item>
   </channel>
 </rss>

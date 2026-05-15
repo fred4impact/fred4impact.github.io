@@ -11,7 +11,7 @@ DevOps enthusiast focused on cloud infrastructure, Kubernetes, automation, CI/CD
 ## 🚀 Core Focus Areas
 
 - Kubernetes deployments & scaling
-- CI/CD automation with GitHub Actions
+- CI/CD automation with GitHub Actions|Gitlab |Jenkins
 - Infrastructure as Code (Terraform)
 - Monitoring with Prometheus & Grafana
 - Chaos Engineering & Resilience Testing
