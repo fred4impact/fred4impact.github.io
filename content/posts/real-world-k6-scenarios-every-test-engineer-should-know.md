@@ -32,7 +32,7 @@ This post walks through exactly that. We'll cover three practical test scenarios
 
 `PayWay` is a secure, modern `digital payment` platform built with Django. It features `user authentication`, `KYC verification`, and `AI-powered fraud detection`  the kind of system where performance and reliability aren't optional, they're core to user trust.
 
-![PayWay App](images/payway.png)
+![Payway](/images/payway.png)   
 
 Under the hood it's a server-rendered Django app — no REST API, just session auth, CSRF-protected forms, and a handful of JSON endpoints. It runs behind nginx in Docker Compose. That combination of security-sensitive flows (login, KYC, fraud checks) and traditional Django form handling makes it a great real-world candidate for k6 — and a good reminder that load testing isn't just for microservices and JSON APIs.
 
