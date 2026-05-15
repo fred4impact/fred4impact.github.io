@@ -19,6 +19,6 @@ graph TD
   Ingress --> Service
   Service --> Pod
 ```
-
+<mark>Kubernetes rollout successful</mark>
 
 ![Demo App](/images/payway.png)   

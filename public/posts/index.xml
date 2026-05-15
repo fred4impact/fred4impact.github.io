@@ -44,13 +44,6 @@
       <description>Building Reliable Kubernetes Systems</description>
     </item>
     <item>
-      <title>Things I wish I knew about Git</title>
-      <link>http://localhost:1313/posts/things-i-wish-i-knew-about-git/</link>
-      <pubDate>Tue, 14 Apr 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/things-i-wish-i-knew-about-git/</guid>
-      <description>After years of using Git daily, here are the commands and concepts that actually changed how I work.</description>
-    </item>
-    <item>
       <title>Why I started this blog</title>
       <link>http://localhost:1313/posts/why-i-started-this-blog/</link>
       <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
