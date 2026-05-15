@@ -242,18 +242,3 @@ body {
   }
   .main { padding: 1.5rem 1.25rem; }
 }
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
-
-.avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  object-fit: cover;
-  border: 2px solid #ddd;
-}
