@@ -1,93 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Real World K6 Scenarios Every Test Engineer Should Know · Samuel O</title>
-  <meta name="description" content="DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation." />
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Real World K6 Scenarios Every Test Engineer Should Know | Samuel O</title>
+<meta name="keywords" content="k6, load, spike, grafana, soaking">
+<meta name="description" content="A hands-on guide to realistic K6 load testing scenarios every test engineer should understand and apply.">
+<meta name="author" content="Samuel O">
+<link rel="canonical" href="http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/real-world-k6-scenarios-every-test-engineer-should-know/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
 </head>
-<body>
-  <div class="layout">
-    <aside class="sidebar">
-  <a href="/" class="brand">
-    <div class="avatar">SA</div>
-    <h1>Samuel O</h1>
-  </a>
-  <p class="bio">DevOps, and automation enthusiast with a passion for continuous learning. I share practical insights, best practices, and real-world lessons from my journey in cloud infrastructure, CI/CD, DevOps workflows, and automation.</p>
-
-  <div class="socials">
-    <a href="https://github.com/fred4impact" target="_blank" rel="noopener">GitHub</a>
-    
-    
-    <a href="/index.xml">RSS</a>
-  </div>
-
-  <div class="sb-section">
-    <div class="sb-label">Pages</div>
-    <nav class="nav">
-      <a href="/" >Blog</a>
-      <a href="/projects" >Projects</a>
-      <a href="/til" >TIL</a>
-      <a href="/about" >About</a>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Samuel O (Alt + H)">Samuel O</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
     </nav>
-  </div>
+</header>
+<main class="main">
 
-  
-  
-  <div class="sb-section">
-    <div class="sb-label">Tags</div>
-    <div class="tags">
-      
-        <a class="tag" href="/tags/blog/">blog <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/git/">git <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/grafana/">grafana <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/k6/">k6 <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/learning/">learning <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/load/">load <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/notes/">notes <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/soaking/">soaking <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/spike/">spike <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/tech/">tech <span class="n">1</span></a>
-      
-        <a class="tag" href="/tags/tools/">tools <span class="n">1</span></a>
-      
-    </div>
-  </div>
-  
-</aside>
-
-    <main class="main">
-      
-<article class="single">
-  <header class="single-header">
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Real World K6 Scenarios Every Test Engineer Should Know
+    </h1>
     <div class="post-meta">
-      <time class="post-date">May 11, 2026</time>
-      <span class="dot">·</span>
-      <span class="post-read">9 min read</span>
-    </div>
-    <h1 class="single-title">Real World K6 Scenarios Every Test Engineer Should Know</h1>
-    
-    <div class="post-tags" style="margin-top: 0.75rem;">
-      <a class="post-tag" href="/tags/k6/">k6</a><a class="post-tag" href="/tags/load/">load</a><a class="post-tag" href="/tags/spike/">spike</a><a class="post-tag" href="/tags/grafana/">grafana</a><a class="post-tag" href="/tags/soaking/">soaking</a>
-    </div>
-    
-  </header>
 
-  <div class="prose">
-    <h2 id="what-is-k6">What is k6</h2>
+<span title='2026-05-11 21:48:38 +0100 BST'>11 May 2026</span>&nbsp;·&nbsp;<span>Samuel O</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h2 id="what-is-k6">What is k6<a hidden class="anchor" aria-hidden="true" href="#what-is-k6">#</a></h2>
 <p>K6 is an open-source performance testing tool used to simulate real user traffic and measure how applications behave under load. It helps engineers identify bottlenecks, improve scalability, and ensure systems remain reliable before reaching production.</p>
 <p>Types of Testing k6 is use for</p>
 <p>K6 can be used for several types of performance and reliability testing, including:</p>
@@ -102,14 +127,14 @@
 <li><code>Smoke Testing</code> perform lightweight checks to verify service availability.</li>
 <li><code>Browser Testing</code> test frontend performance and user interactions using browser automation.</li>
 </ul>
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
 <p>So you&rsquo;ve heard of k6, maybe written a basic script, and now you&rsquo;re wondering  <em>how do people actually use this in practice?</em> Not the toy examples from the docs, but the kind of tests you&rsquo;d run against a real Django app sitting behind nginx in Docker.</p>
 <p>This post walks through exactly that. We&rsquo;ll cover three practical test scenarios  <code>spike</code>, <code>load</code>, and <code>soak</code> built against a real session-authenticated <code>Django app</code> <code>(PayWay)</code>, and wire everything up to <code>Prometheus</code> and <code>Grafana</code> so you can watch results live. By the end you&rsquo;ll have a setup you can replicate against your own app.</p>
-<h2 id="the-app-were-testing">The App We&rsquo;re Testing</h2>
+<h2 id="the-app-were-testing">The App We&rsquo;re Testing<a hidden class="anchor" aria-hidden="true" href="#the-app-were-testing">#</a></h2>
 <p><code>PayWay</code> is a secure, modern <code>digital payment</code> platform built with Django. It features <code>user authentication</code>, <code>KYC verification</code>, and <code>AI-powered fraud detection</code>  the kind of system where performance and reliability aren&rsquo;t optional, they&rsquo;re core to user trust.</p>
-<p><img src="images/payway.png" alt="PayWay App"></p>
+<p><img alt="PayWay App" loading="lazy" src="images/payway.png"></p>
 <p>Under the hood it&rsquo;s a server-rendered Django app — no REST API, just session auth, CSRF-protected forms, and a handful of JSON endpoints. It runs behind nginx in Docker Compose. That combination of security-sensitive flows (login, KYC, fraud checks) and traditional Django form handling makes it a great real-world candidate for k6 — and a good reminder that load testing isn&rsquo;t just for microservices and JSON APIs.</p>
-<h2 id="the-endpoints-we-care-about">The endpoints we care about:</h2>
+<h2 id="the-endpoints-we-care-about">The endpoints we care about:<a hidden class="anchor" aria-hidden="true" href="#the-endpoints-we-care-about">#</a></h2>
 <ul>
 <li><code>/health/</code> | None | JSON — liveness</li>
 <li><code>/ready/</code> | None | JSON — DB check</li>
@@ -121,7 +146,7 @@
 <li><code>/account/notifications/count/</code> | Session + AJAX header | JSON</li>
 </ul>
 <p>Right away you can see why a pure REST load tester would struggle — login requires CSRF token extraction, and the notification endpoint needs a specific <code>X-Requested-With</code> header. k6 handles all of this cleanly.</p>
-<h2 id="what-is-requires-for-the-demo">What is requires for the Demo</h2>
+<h2 id="what-is-requires-for-the-demo">What is requires for the Demo<a hidden class="anchor" aria-hidden="true" href="#what-is-requires-for-the-demo">#</a></h2>
 <ul>
 <li>K6 installed</li>
 <li>Docker</li>
@@ -130,18 +155,18 @@
 <li>Payway Application</li>
 <li>Docker Compose</li>
 </ul>
-<h2 id="step-1--add-prometheus-and-grafana-to-docker-compose">Step 1 — Add Prometheus and Grafana to Docker Compose</h2>
+<h2 id="step-1--add-prometheus-and-grafana-to-docker-compose">Step 1 — Add Prometheus and Grafana to Docker Compose<a hidden class="anchor" aria-hidden="true" href="#step-1--add-prometheus-and-grafana-to-docker-compose">#</a></h2>
 <p>Before we run any tests, we want somewhere to send metrics. Add these services to your <code>docker-compose.yml</code>:</p>
-<h2 id="how-k6-pushes-metrics-to-prometheus">How k6 Pushes Metrics to Prometheus</h2>
+<h2 id="how-k6-pushes-metrics-to-prometheus">How k6 Pushes Metrics to Prometheus<a hidden class="anchor" aria-hidden="true" href="#how-k6-pushes-metrics-to-prometheus">#</a></h2>
 <p>k6 has a built-in Prometheus remote-write output. You don&rsquo;t need a separate exporter — just prefix your run command:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://localhost:9090/api/v1/write <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw test-smoke.js
 </span></span></code></pre></div><p>k6 pushes metrics directly to Prometheus, which Grafana then queries. Clean and simple.</p>
 <hr>
-<h2 id="a-utility-pattern-worth-knowing">A Utility Pattern Worth Knowing</h2>
+<h2 id="a-utility-pattern-worth-knowing">A Utility Pattern Worth Knowing<a hidden class="anchor" aria-hidden="true" href="#a-utility-pattern-worth-knowing">#</a></h2>
 <p>All three tests share a small <code>jsonPath</code> helper. Worth understanding because k6 returns raw responses, not parsed objects:</p>
 <hr>
-<h2 id="scenario-1--spike-test-health-endpoints">Scenario 1 — Spike Test: Health Endpoints</h2>
+<h2 id="scenario-1--spike-test-health-endpoints">Scenario 1 — Spike Test: Health Endpoints<a hidden class="anchor" aria-hidden="true" href="#scenario-1--spike-test-health-endpoints">#</a></h2>
 <p><strong>What it tests:</strong> Can nginx and Django absorb a sudden burst of traffic without dropping connections?</p>
 <p><strong>Why start here:</strong> These endpoints are no-auth, lightweight, and respond in milliseconds. Running this first gives you a performance baseline before you touch anything stateful.</p>
 <p><strong>The scenario:</strong></p>
@@ -159,7 +184,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http_req_duration</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;p(95)&lt;500&#39;</span>],  <span style="color:#75715e">// health checks should be very fast
 </span></span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h2 id="test">Test</h2>
+</span></span></code></pre></div><h2 id="test">Test<a hidden class="anchor" aria-hidden="true" href="#test">#</a></h2>
 <p>The test hits all six health/discovery endpoints in a single iteration — <code>/health/</code>, <code>/ready/</code>, <code>/actuator/health/</code>, <code>/actuator/health/liveness/</code>, <code>/actuator/health/readiness/</code>, and <code>/api/</code>. Each in its own <code>group()</code> so you get per-group timing in the output.</p>
 <p>A key thing to check: <strong><code>/ready/</code> might return 503 during the spike.</strong> That&rsquo;s valid — it means the DB is struggling, not that the test is broken. The check is written to accept both:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">check</span>(<span style="color:#a6e22e">res</span>, {
@@ -171,7 +196,7 @@
 </span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw test-spike-health.js
 </span></span></code></pre></div><p>Total runtime: ~1.5 minutes. Watch the Grafana dashboard — you&rsquo;ll see the VU count jump sharply and the p95 response time spike and recover.</p>
 <hr>
-<h2 id="scenario-2--load-test-full-login-flow">Scenario 2 — Load Test: Full Login Flow</h2>
+<h2 id="scenario-2--load-test-full-login-flow">Scenario 2 — Load Test: Full Login Flow<a hidden class="anchor" aria-hidden="true" href="#scenario-2--load-test-full-login-flow">#</a></h2>
 <p><strong>What it tests:</strong> Sustained concurrent users doing a real user journey — login, security check, notification poll.</p>
 <p><strong>Why this matters:</strong> This is your most realistic test. It exercises CSRF token extraction, form POST, session cookie handling, and two authenticated JSON endpoints. It&rsquo;s also where Django&rsquo;s session backend and DB connection pool will start to show strain.</p>
 <p><strong>The login flow has four steps:</strong></p>
@@ -227,7 +252,7 @@
 </span></span></span><span style="display:flex;"><span>       test-load-login.js
 </span></span></code></pre></div><p><strong>One important caveat:</strong> this only works for accounts without 2FA. The script detects a missing session cookie and exits the iteration cleanly with a logged error — it won&rsquo;t silently mark checks as passed.</p>
 <hr>
-<h2 id="scenario-3--soak-test-database-endurance">Scenario 3 — Soak Test: Database Endurance</h2>
+<h2 id="scenario-3--soak-test-database-endurance">Scenario 3 — Soak Test: Database Endurance<a hidden class="anchor" aria-hidden="true" href="#scenario-3--soak-test-database-endurance">#</a></h2>
 <p><strong>What it tests:</strong> Does the DB connection pool hold up over time? Are there memory leaks?</p>
 <p><strong>Why <code>/ready/</code> specifically:</strong> This endpoint actively checks DB connectivity on every hit. Unlike <code>/health/</code> (which is process-only), <code>/ready/</code> creates a real DB connection. Running it at low-but-steady load for 10+ minutes is one of the best ways to surface connection exhaustion in Docker — Postgres has a default <code>max_connections</code> of 100, and Django&rsquo;s connection pool can leak under sustained load if not configured correctly.</p>
 <p><strong>The scenario is deliberately slow:</strong></p>
@@ -250,14 +275,14 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>K6_PROMETHEUS_RW_SERVER_URL<span style="color:#f92672">=</span>http://localhost:9090/api/v1/write <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>k6 run --out experimental-prometheus-rw test-soak-ready.js
 </span></span></code></pre></div><hr>
-<h2 id="the-grafana-dashboard">The Grafana Dashboard</h2>
+<h2 id="the-grafana-dashboard">The Grafana Dashboard<a hidden class="anchor" aria-hidden="true" href="#the-grafana-dashboard">#</a></h2>
 <p>The provisioned dashboard has 10 panels. The ones worth paying attention to during a test run:</p>
 <p><strong>Check Pass Rate</strong> — your first alert. If this drops below 85% something is actually broken, not just slow.</p>
 <p><strong>p95 Response Time by URL</strong> — breaks latency down per endpoint. Useful for spotting whether slowness is in the login POST (CSRF + session creation) vs the JSON APIs.</p>
 <p><strong>Request Phase Breakdown</strong> — splits each request into connect / waiting (TTFB) / receiving / sending. If <em>connecting</em> is high, nginx is the bottleneck. If <em>waiting</em> is high, Django or the DB is.</p>
 <p><strong>Active VUs</strong> — sanity check that your stages are executing as expected.</p>
 <hr>
-<h2 id="running-on-cloud-later">Running on Cloud Later</h2>
+<h2 id="running-on-cloud-later">Running on Cloud Later<a hidden class="anchor" aria-hidden="true" href="#running-on-cloud-later">#</a></h2>
 <p>When you&rsquo;re ready to move beyond Docker, the only changes are the <code>options</code> block (higher VUs) and <code>BASE_URL</code>. Everything else — CSRF extraction, session handling, AJAX headers — stays identical.</p>
 <p>Each test file has the cloud config commented out at the top:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// ─── Cloud options ─────────────────────────────────
@@ -278,7 +303,7 @@
 </span></span></span><span style="display:flex;"><span>       -e TEST_PASSWORD<span style="color:#f92672">=</span>secret <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>       test-load-login.js
 </span></span></code></pre></div><hr>
-<h2 id="wrapping-up">Wrapping Up</h2>
+<h2 id="wrapping-up">Wrapping Up<a hidden class="anchor" aria-hidden="true" href="#wrapping-up">#</a></h2>
 <p>The three scenarios cover different failure modes:</p>
 <ul>
 <li><strong>Spike</strong> → nginx connection handling under burst traffic</li>
@@ -289,14 +314,99 @@
 <p>The full test files and monitoring config are available in the project repo. If you hit issues with CSRF extraction or the AJAX header on notifications — those are the two most common gotchas on Django apps — check the API guide first, the answers are usually there.</p>
 <p>Happy testing.</p>
 
+
   </div>
 
-  <footer class="single-footer">
-    <a href="/" class="back-link">← Back to all posts</a>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/k6/">K6</a></li>
+      <li><a href="http://localhost:1313/tags/load/">Load</a></li>
+      <li><a href="http://localhost:1313/tags/spike/">Spike</a></li>
+      <li><a href="http://localhost:1313/tags/grafana/">Grafana</a></li>
+      <li><a href="http://localhost:1313/tags/soaking/">Soaking</a></li>
+    </ul>
   </footer>
 </article>
-
     </main>
-  </div>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Samuel O</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
 </body>
+
 </html>

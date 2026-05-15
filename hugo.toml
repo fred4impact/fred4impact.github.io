@@ -12,3 +12,6 @@ paginate = 8
 
 [taxonomies]
   tag = "tags"
+
+[params.assets]
+customCSS = ["css/custom.css"]
