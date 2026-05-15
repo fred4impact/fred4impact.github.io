@@ -1,7 +1,7 @@
 ---
 title: "Deployment Strategies Demystified"
 date: 2026-05-08T15:59:51+01:00
-draft: true
+draft: false
 tags: ["Argo-rollout","canary","Minikube", "ArgoCD"]
 summary: "A Practical Argo Rollouts Walkthrough"
 ---
