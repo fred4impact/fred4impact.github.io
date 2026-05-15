@@ -1,7 +1,7 @@
 ---
 title: "Things I wish I knew about Git"
 date: 2026-04-14
-draft: false
+draft: true
 tags: ["git", "tools"]
 summary: "After years of using Git daily, here are the commands and concepts that actually changed how I work."
 ---
