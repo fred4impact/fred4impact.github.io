@@ -15,3 +15,34 @@ paginate = 8
 
 [params.assets]
 customCSS = ["css/custom.css"]
+
+[[menu.main]]
+name = "Demos"
+url = "/demos/"
+weight = 1
+
+[[menu.main]]
+name = "DevOps Notes"
+url = "/devops/"
+weight = 2
+
+[[menu.main]]
+name = "Articles"
+url = "/writings/"
+weight = 3
+
+[[menu.main]]
+name = "Cheatsheets"
+url = "/cheatsheets/"
+weight = 4
+
+[[menu.main]]
+name = "GitHub"
+url = "https://github.com/fred4impact"
+weight = 5
+
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

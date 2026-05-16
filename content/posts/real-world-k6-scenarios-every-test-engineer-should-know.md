@@ -29,11 +29,9 @@ So you've heard of k6, maybe written a basic script, and now you're wondering  *
 This post walks through exactly that. We'll cover three practical test scenarios  `spike`, `load`, and `soak` built against a real session-authenticated `Django app` `(PayWay)`, and wire everything up to `Prometheus` and `Grafana` so you can watch results live. By the end you'll have a setup you can replicate against your own app.
 
 ## The App We're Testing
+![Payway](/images/payway.png)
 
 `PayWay` is a secure, modern `digital payment` platform built with Django. It features `user authentication`, `KYC verification`, and `AI-powered fraud detection`  the kind of system where performance and reliability aren't optional, they're core to user trust.
-
-![Payway](/images/payway.png)   
-
 Under the hood it's a server-rendered Django app — no REST API, just session auth, CSRF-protected forms, and a handful of JSON endpoints. It runs behind nginx in Docker Compose. That combination of security-sensitive flows (login, KYC, fraud checks) and traditional Django form handling makes it a great real-world candidate for k6 — and a good reminder that load testing isn't just for microservices and JSON APIs.
 
 ## The endpoints we care about:
@@ -47,7 +45,6 @@ Under the hood it's a server-rendered Django app — no REST API, just session a
 -  `/account/notifications/count/` | Session + AJAX header | JSON
 
 Right away you can see why a pure REST load tester would struggle — login requires CSRF token extraction, and the notification endpoint needs a specific `X-Requested-With` header. k6 handles all of this cleanly.
-
 
 ## What is requires for the Demo
 - K6 installed

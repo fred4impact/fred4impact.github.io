@@ -22,7 +22,8 @@
   User --&amp;gt; Ingress
   Ingress --&amp;gt; Service
   Service --&amp;gt; Pod
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img alt=&#34;Demo App&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/images/payway.png&#34;&gt;&lt;/p&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;mark&gt;Kubernetes rollout successful&lt;/mark&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Demo App&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/images/payway.png&#34;&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
