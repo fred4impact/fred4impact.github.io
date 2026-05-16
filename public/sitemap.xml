@@ -115,6 +115,16 @@
   </url><url>
     <loc>http://localhost:1313/cheatsheets/installations/</loc>
   </url><url>
+    <loc>http://localhost:1313/cheatsheets/kubernetes/</loc>
+  </url><url>
+    <loc>http://localhost:1313/cheatsheets/linux/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/notes/</loc>
+  </url><url>
     <loc>http://localhost:1313/cheatsheets/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/</loc>
+  </url><url>
+    <loc>http://localhost:1313/writings/</loc>
   </url>
 </urlset>
