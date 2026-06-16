@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Samuel O</title>
+<meta name="keywords" content="">
+<meta name="description" content="Prometheus and Grafana Troubleshooting Guide
+This comprehensive guide provides commands, techniques, and solutions for troubleshooting Prometheus monitoring systems and Grafana dashboards in DevOps environments.
+Table of Contents
+
+Prometheus Server Issues
+Prometheus Target Discovery
+Prometheus Alerting Issues
+PromQL Troubleshooting
+Prometheus Storage and Performance
+Prometheus Exporters
+Grafana Connection Issues
+Grafana Dashboard Problems
+Grafana Authentication Issues
+Grafana Alerting
+Complete System Health Check
+
+Prometheus Server Issues
+Prometheus Service Startup Problems
+# Check Prometheus service status
+sudo systemctl status prometheus
+
+# View Prometheus logs
+sudo journalctl -u prometheus -f
+
+# Verify Prometheus configuration
+promtool check config /etc/prometheus/prometheus.yml
+
+# Test Prometheus configuration file
+prometheus --test --config.file=/etc/prometheus/prometheus.yml
+
+# Check if Prometheus is running
+ps aux | grep prometheus
+Configuration Validation
+# Validate configuration file
+promtool check config /etc/prometheus/prometheus.yml
+
+# Validate rules file
+promtool check rules /etc/prometheus/rules/*.yml
+
+# Validate alerting rules
+promtool check alerts /etc/prometheus/alerts/*.yml
+
+# Test configuration and exit
+prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --test
+Common Configuration Issues
+
+
+Invalid YAML syntax">
+<meta name="author" content="Samuel O">
+<link rel="canonical" href="http://localhost:1313/cheatsheets/observability/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.821bd89b44ba15c43b5c8fa265af22d0be3cf60e0b5e1749a8d26834831549a7.css" integrity="sha256-ghvYm0S6FcQ7XI&#43;iZa8i0L489g4LXhdJqNJoNIMVSac=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/cheatsheets/observability/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "dark"
+  });
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("code.language-mermaid").forEach((block) => {
+    const pre = block.parentElement;
+
+    const div = document.createElement("div");
+    div.classList.add("mermaid");
+    div.innerHTML = block.textContent;
+
+    pre.replaceWith(div);
+  });
+
+  mermaid.init();
+});
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Samuel O (Alt + H)">Samuel O</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Hands-On-Demo">
+                    <span>Hands-On-Demo</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/devops/" title="Concepts">
+                    <span>Concepts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/writings/" title="Articles">
+                    <span>Articles</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/cheatsheets/" title="Cheatsheets">
+                    <span>Cheatsheets</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/fred4impact" title="GitHub">
+                    <span>GitHub</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      
+    </h1>
+    <div class="post-meta">
+
+<span>Samuel O</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h1 id="prometheus-and-grafana-troubleshooting-guide">Prometheus and Grafana Troubleshooting Guide<a hidden class="anchor" aria-hidden="true" href="#prometheus-and-grafana-troubleshooting-guide">#</a></h1>
+<p>This comprehensive guide provides commands, techniques, and solutions for troubleshooting Prometheus monitoring systems and Grafana dashboards in DevOps environments.</p>
+<h2 id="table-of-contents">Table of Contents<a hidden class="anchor" aria-hidden="true" href="#table-of-contents">#</a></h2>
+<ul>
+<li><a href="#prometheus-server-issues">Prometheus Server Issues</a></li>
+<li><a href="#prometheus-target-discovery">Prometheus Target Discovery</a></li>
+<li><a href="#prometheus-alerting-issues">Prometheus Alerting Issues</a></li>
+<li><a href="#promql-troubleshooting">PromQL Troubleshooting</a></li>
+<li><a href="#prometheus-storage-and-performance">Prometheus Storage and Performance</a></li>
+<li><a href="#prometheus-exporters">Prometheus Exporters</a></li>
+<li><a href="#grafana-connection-issues">Grafana Connection Issues</a></li>
+<li><a href="#grafana-dashboard-problems">Grafana Dashboard Problems</a></li>
+<li><a href="#grafana-authentication-issues">Grafana Authentication Issues</a></li>
+<li><a href="#grafana-alerting">Grafana Alerting</a></li>
+<li><a href="#complete-system-health-check">Complete System Health Check</a></li>
+</ul>
+<h2 id="prometheus-server-issues">Prometheus Server Issues<a hidden class="anchor" aria-hidden="true" href="#prometheus-server-issues">#</a></h2>
+<h3 id="prometheus-service-startup-problems">Prometheus Service Startup Problems<a hidden class="anchor" aria-hidden="true" href="#prometheus-service-startup-problems">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check Prometheus service status</span>
+</span></span><span style="display:flex;"><span>sudo systemctl status prometheus
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View Prometheus logs</span>
+</span></span><span style="display:flex;"><span>sudo journalctl -u prometheus -f
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify Prometheus configuration</span>
+</span></span><span style="display:flex;"><span>promtool check config /etc/prometheus/prometheus.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test Prometheus configuration file</span>
+</span></span><span style="display:flex;"><span>prometheus --test --config.file<span style="color:#f92672">=</span>/etc/prometheus/prometheus.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check if Prometheus is running</span>
+</span></span><span style="display:flex;"><span>ps aux | grep prometheus
+</span></span></code></pre></div><h3 id="configuration-validation">Configuration Validation<a hidden class="anchor" aria-hidden="true" href="#configuration-validation">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Validate configuration file</span>
+</span></span><span style="display:flex;"><span>promtool check config /etc/prometheus/prometheus.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Validate rules file</span>
+</span></span><span style="display:flex;"><span>promtool check rules /etc/prometheus/rules/*.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Validate alerting rules</span>
+</span></span><span style="display:flex;"><span>promtool check alerts /etc/prometheus/alerts/*.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test configuration and exit</span>
+</span></span><span style="display:flex;"><span>prometheus --config.file<span style="color:#f92672">=</span>/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --test
+</span></span></code></pre></div><h3 id="common-configuration-issues">Common Configuration Issues<a hidden class="anchor" aria-hidden="true" href="#common-configuration-issues">#</a></h3>
+<ol>
+<li>
+<p><strong>Invalid YAML syntax</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Use YAML linter to check syntax</span>
+</span></span><span style="display:flex;"><span>yamllint /etc/prometheus/prometheus.yml
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Permission problems</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check Prometheus user permissions</span>
+</span></span><span style="display:flex;"><span>sudo -u prometheus ls -la /etc/prometheus/
+</span></span><span style="display:flex;"><span>sudo -u prometheus ls -la /var/lib/prometheus/
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Certificate issues for TLS</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Verify TLS certificates</span>
+</span></span><span style="display:flex;"><span>openssl x509 -in /etc/prometheus/cert.pem -text -noout
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="prometheus-target-discovery">Prometheus Target Discovery<a hidden class="anchor" aria-hidden="true" href="#prometheus-target-discovery">#</a></h2>
+<h3 id="target-status-inspection">Target Status Inspection<a hidden class="anchor" aria-hidden="true" href="#target-status-inspection">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># API endpoint for targets</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/targets | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Filter for specific target status</span>
+</span></span><span style="display:flex;"><span>curl -s <span style="color:#e6db74">&#39;http://localhost:9090/api/v1/targets?state=down&#39;</span> | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check service discovery configs</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/targets/metadata | jq .
+</span></span></code></pre></div><h3 id="target-connection-issues">Target Connection Issues<a hidden class="anchor" aria-hidden="true" href="#target-connection-issues">#</a></h3>
+<ol>
+<li>
+<p><strong>Network connectivity</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check connectivity to target</span>
+</span></span><span style="display:flex;"><span>curl -v http://target:port/metrics
+</span></span><span style="display:flex;"><span>telnet target port
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Authentication issues</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test with authentication</span>
+</span></span><span style="display:flex;"><span>curl -v -u username:password http://target:port/metrics
+</span></span></code></pre></div></li>
+<li>
+<p><strong>TLS/SSL problems</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test with TLS</span>
+</span></span><span style="display:flex;"><span>curl -v --cert /path/to/cert.pem --key /path/to/key.pem https://target:port/metrics
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Skip verification for testing</span>
+</span></span><span style="display:flex;"><span>curl -v -k https://target:port/metrics
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="kubernetes-service-discovery-issues">Kubernetes Service Discovery Issues<a hidden class="anchor" aria-hidden="true" href="#kubernetes-service-discovery-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check RBAC permissions</span>
+</span></span><span style="display:flex;"><span>kubectl auth can-i list pods --as<span style="color:#f92672">=</span>system:serviceaccount:monitoring:prometheus
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Inspect service discovery annotations</span>
+</span></span><span style="display:flex;"><span>kubectl get pods -n app-namespace -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.items[*].metadata.annotations}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify endpoints existence</span>
+</span></span><span style="display:flex;"><span>kubectl get endpoints -n app-namespace
+</span></span></code></pre></div><h2 id="prometheus-alerting-issues">Prometheus Alerting Issues<a hidden class="anchor" aria-hidden="true" href="#prometheus-alerting-issues">#</a></h2>
+<h3 id="alertmanager-status">AlertManager Status<a hidden class="anchor" aria-hidden="true" href="#alertmanager-status">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check AlertManager service status</span>
+</span></span><span style="display:flex;"><span>sudo systemctl status alertmanager
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View AlertManager logs</span>
+</span></span><span style="display:flex;"><span>sudo journalctl -u alertmanager -f
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify AlertManager configuration</span>
+</span></span><span style="display:flex;"><span>amtool check-config /etc/alertmanager/alertmanager.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check active alerts</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9093/api/v1/alerts | jq .
+</span></span></code></pre></div><h3 id="testing-alert-rules">Testing Alert Rules<a hidden class="anchor" aria-hidden="true" href="#testing-alert-rules">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check alert rules syntax</span>
+</span></span><span style="display:flex;"><span>promtool check rules /etc/prometheus/rules/*.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test alert rule expression</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=ALERTS{alertstate=&#34;firing&#34;}&#39;</span> http://localhost:9090/api/v1/query | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Manually fire a test alert</span>
+</span></span><span style="display:flex;"><span>amtool alert add alertname<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TestAlert&#34;</span> severity<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;critical&#34;</span> instance<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test&#34;</span> job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test&#34;</span>
+</span></span></code></pre></div><h3 id="notification-problems">Notification Problems<a hidden class="anchor" aria-hidden="true" href="#notification-problems">#</a></h3>
+<ol>
+<li>
+<p><strong>Email notification issues</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test SMTP connection</span>
+</span></span><span style="display:flex;"><span>nc -zv smtp.example.com <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Send test email</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;Subject: Test Email\r\n\r\nTest Body&#34;</span> | curl --ssl smtp://smtp.example.com:25 --mail-from alert@example.com --mail-rcpt admin@example.com -T -
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Slack notification issues</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test Slack webhook</span>
+</span></span><span style="display:flex;"><span>curl -X POST -H <span style="color:#e6db74">&#39;Content-type: application/json&#39;</span> --data <span style="color:#e6db74">&#39;{&#34;text&#34;:&#34;Test Alert&#34;}&#39;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>PagerDuty notification issues</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test PagerDuty API</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Content-type: application/json&#34;</span> -X POST -d <span style="color:#e6db74">&#39;{&#34;routing_key&#34;:&#34;YOUR_INTEGRATION_KEY&#34;,&#34;event_action&#34;:&#34;trigger&#34;,&#34;payload&#34;:{&#34;summary&#34;:&#34;Test alert&#34;,&#34;source&#34;:&#34;manual test&#34;,&#34;severity&#34;:&#34;critical&#34;}}&#39;</span> <span style="color:#e6db74">&#34;https://events.pagerduty.com/v2/enqueue&#34;</span>
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="promql-troubleshooting">PromQL Troubleshooting<a hidden class="anchor" aria-hidden="true" href="#promql-troubleshooting">#</a></h2>
+<h3 id="testing-promql-expressions">Testing PromQL Expressions<a hidden class="anchor" aria-hidden="true" href="#testing-promql-expressions">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Basic query</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=up&#39;</span> http://localhost:9090/api/v1/query | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Range query</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=rate(node_cpu_seconds_total{mode=&#34;user&#34;}[5m])&#39;</span> --data-urlencode <span style="color:#e6db74">&#39;start=2023-01-01T00:00:00Z&#39;</span> --data-urlencode <span style="color:#e6db74">&#39;end=2023-01-01T01:00:00Z&#39;</span> --data-urlencode <span style="color:#e6db74">&#39;step=15s&#39;</span> http://localhost:9090/api/v1/query_range | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Debug expression with metadata</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/metadata?metric<span style="color:#f92672">=</span>node_cpu_seconds_total | jq .
+</span></span></code></pre></div><h3 id="common-promql-mistakes">Common PromQL Mistakes<a hidden class="anchor" aria-hidden="true" href="#common-promql-mistakes">#</a></h3>
+<ol>
+<li>
+<p><strong>Rate used with gauge metrics</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Incorrect (using rate with gauge)</span>
+</span></span><span style="display:flex;"><span>rate<span style="color:#f92672">(</span>node_memory_MemFree_bytes<span style="color:#f92672">[</span>5m<span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Correct (using gauge directly)</span>
+</span></span><span style="display:flex;"><span>node_memory_MemFree_bytes
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Missing selector in aggregation</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># May return unexpected results</span>
+</span></span><span style="display:flex;"><span>sum<span style="color:#f92672">(</span>rate<span style="color:#f92672">(</span>http_requests_total<span style="color:#f92672">[</span>5m<span style="color:#f92672">]))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Specify what to aggregate by</span>
+</span></span><span style="display:flex;"><span>sum by<span style="color:#f92672">(</span>instance, job<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>rate<span style="color:#f92672">(</span>http_requests_total<span style="color:#f92672">[</span>5m<span style="color:#f92672">]))</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Incorrect time range</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># For sparse metrics, increase range</span>
+</span></span><span style="display:flex;"><span>rate<span style="color:#f92672">(</span>rare_event_counter<span style="color:#f92672">[</span>5m<span style="color:#f92672">])</span> <span style="color:#75715e"># might be empty</span>
+</span></span><span style="display:flex;"><span>rate<span style="color:#f92672">(</span>rare_event_counter<span style="color:#f92672">[</span>1h<span style="color:#f92672">])</span> <span style="color:#75715e"># better for sparse metrics</span>
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="prometheus-storage-and-performance">Prometheus Storage and Performance<a hidden class="anchor" aria-hidden="true" href="#prometheus-storage-and-performance">#</a></h2>
+<h3 id="storage-issues">Storage Issues<a hidden class="anchor" aria-hidden="true" href="#storage-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check disk space</span>
+</span></span><span style="display:flex;"><span>df -h /var/lib/prometheus/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check TSDB stats</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/status/tsdb | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get storage warnings</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/status/runtimeinfo | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check compaction status</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/status/buildinfo | jq .
+</span></span></code></pre></div><h3 id="performance-troubleshooting">Performance Troubleshooting<a hidden class="anchor" aria-hidden="true" href="#performance-troubleshooting">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Get runtime metrics</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/metrics | grep prometheus_engine_ | sort
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check query performance</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/query_exemplars?query<span style="color:#f92672">=</span>prometheus_engine_query_duration_seconds
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Memory usage stats</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/metrics | grep process_resident_memory_bytes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sample scrape duration</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/metrics | grep prometheus_target_scrape_duration_seconds
+</span></span></code></pre></div><h3 id="optimizing-prometheus">Optimizing Prometheus<a hidden class="anchor" aria-hidden="true" href="#optimizing-prometheus">#</a></h3>
+<ol>
+<li>
+<p><strong>Adjust storage retention</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Modify retention period (in prometheus.yml)</span>
+</span></span><span style="display:flex;"><span>storage:
+</span></span><span style="display:flex;"><span>  tsdb:
+</span></span><span style="display:flex;"><span>    retention.time: 15d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply changes without restart</span>
+</span></span><span style="display:flex;"><span>curl -X POST http://localhost:9090/-/reload
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Adjust scrape intervals</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># In prometheus.yml</span>
+</span></span><span style="display:flex;"><span>global:
+</span></span><span style="display:flex;"><span>  scrape_interval: 30s  <span style="color:#75715e"># Increase for less storage usage</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For specific targets</span>
+</span></span><span style="display:flex;"><span>scrape_configs:
+</span></span><span style="display:flex;"><span>  - job_name: <span style="color:#e6db74">&#39;high-frequency&#39;</span>
+</span></span><span style="display:flex;"><span>    scrape_interval: 5s
+</span></span><span style="display:flex;"><span>    static_configs:
+</span></span><span style="display:flex;"><span>      - targets: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;critical:9100&#39;</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Use external storage</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Configure remote write</span>
+</span></span><span style="display:flex;"><span>prometheus.yml:
+</span></span><span style="display:flex;"><span>remote_write:
+</span></span><span style="display:flex;"><span>  - url: <span style="color:#e6db74">&#34;http://remote-storage:9201/write&#34;</span>
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="prometheus-exporters">Prometheus Exporters<a hidden class="anchor" aria-hidden="true" href="#prometheus-exporters">#</a></h2>
+<h3 id="node-exporter-issues">Node Exporter Issues<a hidden class="anchor" aria-hidden="true" href="#node-exporter-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check Node Exporter status</span>
+</span></span><span style="display:flex;"><span>sudo systemctl status node_exporter
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View Node Exporter logs</span>
+</span></span><span style="display:flex;"><span>sudo journalctl -u node_exporter -f
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test metrics endpoint</span>
+</span></span><span style="display:flex;"><span>curl http://localhost:9100/metrics
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check enabled collectors</span>
+</span></span><span style="display:flex;"><span>ps aux | grep node_exporter | grep collector
+</span></span></code></pre></div><h3 id="custom-exporter-debugging">Custom Exporter Debugging<a hidden class="anchor" aria-hidden="true" href="#custom-exporter-debugging">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check if exporter is running</span>
+</span></span><span style="display:flex;"><span>ps aux | grep exporter
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test metrics endpoint</span>
+</span></span><span style="display:flex;"><span>curl http://localhost:port/metrics
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Follow exporter logs</span>
+</span></span><span style="display:flex;"><span>tail -f /var/log/exporter.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check port availability</span>
+</span></span><span style="display:flex;"><span>netstat -tulpn | grep port
+</span></span></code></pre></div><h3 id="blackbox-exporter-issues">Blackbox Exporter Issues<a hidden class="anchor" aria-hidden="true" href="#blackbox-exporter-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test specific probe</span>
+</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#39;http://localhost:9115/probe?target=https://example.com&amp;module=http_2xx&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check configuration</span>
+</span></span><span style="display:flex;"><span>cat /etc/prometheus/blackbox.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Validate configuration</span>
+</span></span><span style="display:flex;"><span>blackbox_exporter --config.check --config.file<span style="color:#f92672">=</span>/etc/prometheus/blackbox.yml
+</span></span></code></pre></div><h2 id="grafana-connection-issues">Grafana Connection Issues<a hidden class="anchor" aria-hidden="true" href="#grafana-connection-issues">#</a></h2>
+<h3 id="grafana-server-startup-problems">Grafana Server Startup Problems<a hidden class="anchor" aria-hidden="true" href="#grafana-server-startup-problems">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check Grafana service status</span>
+</span></span><span style="display:flex;"><span>sudo systemctl status grafana-server
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View Grafana logs</span>
+</span></span><span style="display:flex;"><span>sudo journalctl -u grafana-server -f
+</span></span><span style="display:flex;"><span>tail -f /var/log/grafana/grafana.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify Grafana configuration</span>
+</span></span><span style="display:flex;"><span>cat /etc/grafana/grafana.ini
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check if Grafana is running</span>
+</span></span><span style="display:flex;"><span>ps aux | grep grafana
+</span></span></code></pre></div><h3 id="datasource-connection-issues">Datasource Connection Issues<a hidden class="anchor" aria-hidden="true" href="#datasource-connection-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test Prometheus connection</span>
+</span></span><span style="display:flex;"><span>curl -v http://prometheus:9090/api/v1/query?query<span style="color:#f92672">=</span>up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check network connectivity from Grafana server</span>
+</span></span><span style="display:flex;"><span>nc -zv prometheus-host <span style="color:#ae81ff">9090</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test with HTTPie (more readable output)</span>
+</span></span><span style="display:flex;"><span>http GET http://prometheus:9090/api/v1/query?query<span style="color:#f92672">=</span>up
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check Grafana datasource configuration</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/datasources | jq .
+</span></span></code></pre></div><h3 id="common-connection-problems">Common Connection Problems<a hidden class="anchor" aria-hidden="true" href="#common-connection-problems">#</a></h3>
+<ol>
+<li>
+<p><strong>CORS issues</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># In prometheus.yml</span>
+</span></span><span style="display:flex;"><span>web:
+</span></span><span style="display:flex;"><span>  cors:
+</span></span><span style="display:flex;"><span>    access-control-allow-origin: <span style="color:#e6db74">&#39;*&#39;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Authentication problems</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test with basic auth</span>
+</span></span><span style="display:flex;"><span>curl -v -u username:password http://prometheus:9090/api/v1/query?query<span style="color:#f92672">=</span>up
+</span></span></code></pre></div></li>
+<li>
+<p><strong>TLS certificate issues</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test TLS connection</span>
+</span></span><span style="display:flex;"><span>openssl s_client -connect prometheus-host:9090
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="grafana-dashboard-problems">Grafana Dashboard Problems<a hidden class="anchor" aria-hidden="true" href="#grafana-dashboard-problems">#</a></h2>
+<h3 id="dashboard-loading-issues">Dashboard Loading Issues<a hidden class="anchor" aria-hidden="true" href="#dashboard-loading-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check browser console for errors (F12 in most browsers)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify Grafana API response</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/dashboards/uid/dashboard-uid | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check for database issues</span>
+</span></span><span style="display:flex;"><span>sudo -u grafana psql -h localhost -U grafana -d grafana -c <span style="color:#e6db74">&#34;SELECT * FROM dashboard LIMIT 1;&#34;</span>
+</span></span></code></pre></div><h3 id="panel-rendering-problems">Panel Rendering Problems<a hidden class="anchor" aria-hidden="true" href="#panel-rendering-problems">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check renderer (if using image rendering)</span>
+</span></span><span style="display:flex;"><span>sudo systemctl status grafana-renderer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check renderer logs</span>
+</span></span><span style="display:flex;"><span>sudo journalctl -u grafana-renderer -f
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test direct query to Prometheus</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=up&#39;</span> http://prometheus:9090/api/v1/query | jq .
+</span></span></code></pre></div><h3 id="query-performance-issues">Query Performance Issues<a hidden class="anchor" aria-hidden="true" href="#query-performance-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Enable query logging (in grafana.ini)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>log<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>filters <span style="color:#f92672">=</span> rendering:debug query:debug
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Review slow query logs</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;slow query&#34;</span> /var/log/grafana/grafana.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Optimize Prometheus queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Use recording rules for complex queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Limit time range</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Reduce number of series (use labels wisely)</span>
+</span></span></code></pre></div><h2 id="grafana-authentication-issues">Grafana Authentication Issues<a hidden class="anchor" aria-hidden="true" href="#grafana-authentication-issues">#</a></h2>
+<h3 id="login-problems">Login Problems<a hidden class="anchor" aria-hidden="true" href="#login-problems">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check auth settings</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;auth&#34;</span> /etc/grafana/grafana.ini
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify LDAP configuration</span>
+</span></span><span style="display:flex;"><span>cat /etc/grafana/ldap.toml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test LDAP connection</span>
+</span></span><span style="display:flex;"><span>ldapsearch -x -H ldap://ldap-server:389 -D <span style="color:#e6db74">&#34;cn=admin,dc=example,dc=com&#34;</span> -w password -b <span style="color:#e6db74">&#34;dc=example,dc=com&#34;</span> <span style="color:#e6db74">&#34;(uid=username)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check Grafana auth logs</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;logger=auth&#34;</span> /var/log/grafana/grafana.log
+</span></span></code></pre></div><h3 id="user-permission-issues">User Permission Issues<a hidden class="anchor" aria-hidden="true" href="#user-permission-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># List users</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/users | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check user organizations</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/users/1/orgs | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check user permissions</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/user/permissions | jq .
+</span></span></code></pre></div><h3 id="reset-admin-password">Reset Admin Password<a hidden class="anchor" aria-hidden="true" href="#reset-admin-password">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># CLI reset (Grafana 8+)</span>
+</span></span><span style="display:flex;"><span>grafana-cli admin reset-admin-password newpassword
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SQLite database</span>
+</span></span><span style="display:flex;"><span>sqlite3 /var/lib/grafana/grafana.db <span style="color:#e6db74">&#34;UPDATE user SET password = &#39;59acf18b94d7eb0694c61e60ce44c110c7a683ac6a8f09580d626f90f4a242000746579358d77dd9e570e83fa24faa88a8a6&#39;, salt = &#39;F3FAxVm33R&#39; WHERE login = &#39;admin&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># PostgreSQL database</span>
+</span></span><span style="display:flex;"><span>sudo -u grafana psql -h localhost -U grafana -d grafana -c <span style="color:#e6db74">&#34;UPDATE \&#34;user\&#34; SET password = &#39;59acf18b94d7eb0694c61e60ce44c110c7a683ac6a8f09580d626f90f4a242000746579358d77dd9e570e83fa24faa88a8a6&#39;, salt = &#39;F3FAxVm33R&#39; WHERE login = &#39;admin&#39;;&#34;</span>
+</span></span></code></pre></div><h2 id="grafana-alerting">Grafana Alerting<a hidden class="anchor" aria-hidden="true" href="#grafana-alerting">#</a></h2>
+<h3 id="alert-rule-issues">Alert Rule Issues<a hidden class="anchor" aria-hidden="true" href="#alert-rule-issues">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># List alert rules (Grafana 8+)</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/ruler/grafana/api/v1/rules | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check alert instances</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/alertmanager/grafana/api/v2/alerts | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View alert state history</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/annotations?limit<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> | jq .
+</span></span></code></pre></div><h3 id="notification-channel-problems">Notification Channel Problems<a hidden class="anchor" aria-hidden="true" href="#notification-channel-problems">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># List notification channels</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> http://localhost:3000/api/alert-notifications | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test notification channel</span>
+</span></span><span style="display:flex;"><span>curl -X POST -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#39;{&#34;type&#34;:&#34;email&#34;}&#39;</span> http://localhost:3000/api/alert-notifications/test | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check alerting logs</span>
+</span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;alerting&#34;</span> /var/log/grafana/grafana.log
+</span></span></code></pre></div><h2 id="complete-system-health-check">Complete System Health Check<a hidden class="anchor" aria-hidden="true" href="#complete-system-health-check">#</a></h2>
+<h3 id="end-to-end-monitoring-pipeline-test">End-to-End Monitoring Pipeline Test<a hidden class="anchor" aria-hidden="true" href="#end-to-end-monitoring-pipeline-test">#</a></h3>
+<ol>
+<li>
+<p><strong>Generate test metrics</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Create test exporter (using Node.js)</span>
+</span></span><span style="display:flex;"><span>const http <span style="color:#f92672">=</span> require<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;http&#39;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>const server <span style="color:#f92672">=</span> http.createServer<span style="color:#f92672">((</span>req, res<span style="color:#f92672">)</span> <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  res.writeHead<span style="color:#f92672">(</span>200, <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;Content-Type&#39;</span>: <span style="color:#e6db74">&#39;text/plain&#39;</span><span style="color:#f92672">})</span>;
+</span></span><span style="display:flex;"><span>  res.end<span style="color:#f92672">(</span><span style="color:#e6db74">`</span><span style="color:#75715e"># HELP test_metric A test metric\n# TYPE test_metric gauge\ntest_metric{label=&#34;test&#34;} ${Math.random() * 100}\n`);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">})</span>;
+</span></span><span style="display:flex;"><span>server.listen<span style="color:#f92672">(</span>8099<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Or with Python</span>
+</span></span><span style="display:flex;"><span>from http.server import HTTPServer, BaseHTTPRequestHandler
+</span></span><span style="display:flex;"><span>import random
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>class MetricsHandler<span style="color:#f92672">(</span>BaseHTTPRequestHandler<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>    def do_GET<span style="color:#f92672">(</span>self<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>        self.send_response<span style="color:#f92672">(</span>200<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        self.send_header<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Content-Type&#39;</span>, <span style="color:#e6db74">&#39;text/plain&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        self.end_headers<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        metric <span style="color:#f92672">=</span> f<span style="color:#e6db74">&#34;# HELP test_metric A test metric\n# TYPE test_metric gauge\ntest_metric{{label=\&#34;test\&#34;}} {random.random() * 100}\n&#34;</span>
+</span></span><span style="display:flex;"><span>        self.wfile.write<span style="color:#f92672">(</span>metric.encode<span style="color:#f92672">())</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HTTPServer<span style="color:#f92672">((</span><span style="color:#e6db74">&#39;&#39;</span>, 8099<span style="color:#f92672">)</span>, MetricsHandler<span style="color:#f92672">)</span>.serve_forever<span style="color:#f92672">()</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Configure Prometheus to scrape test metrics</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">scrape_configs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">job_name</span>: <span style="color:#e6db74">&#39;test&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">static_configs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;localhost:8099&#39;</span>]
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Set up alert rule for test metric</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">groups</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">alert</span>: <span style="color:#ae81ff">TestMetricHigh</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">expr</span>: <span style="color:#ae81ff">test_metric &gt; 50</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for</span>: <span style="color:#ae81ff">1m</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">severity</span>: <span style="color:#ae81ff">critical</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">summary</span>: <span style="color:#e6db74">&#34;Test metric is high&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;Test metric value is {{ $value }}&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Create dashboard in Grafana</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Import dashboard via API</span>
+</span></span><span style="display:flex;"><span>curl -X POST -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:admin&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;dashboard&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;title&#34;: &#34;Test Dashboard&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;panels&#34;: [
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;title&#34;: &#34;Test Metric&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;type&#34;: &#34;graph&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;gridPos&#34;: {&#34;h&#34;: 8, &#34;w&#34;: 12, &#34;x&#34;: 0, &#34;y&#34;: 0},
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;targets&#34;: [{&#34;expr&#34;: &#34;test_metric&#34;, &#34;legendFormat&#34;: &#34;&#34;}]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;overwrite&#34;: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}&#39;</span> http://localhost:3000/api/dashboards/db | jq .
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Verify complete pipeline</strong></p>
+<ul>
+<li>Check if metric is scraped by Prometheus:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=test_metric&#39;</span> http://localhost:9090/api/v1/query | jq .
+</span></span></code></pre></div></li>
+<li>Check if alert fires when value &gt; 50:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/alerts | jq .
+</span></span></code></pre></div></li>
+<li>Verify alert is received by AlertManager:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s http://localhost:9093/api/v1/alerts | jq .
+</span></span></code></pre></div></li>
+<li>Check if metric appears on Grafana dashboard</li>
+</ul>
+</li>
+</ol>
+<h3 id="system-resource-check">System Resource Check<a hidden class="anchor" aria-hidden="true" href="#system-resource-check">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check CPU usage</span>
+</span></span><span style="display:flex;"><span>top -bn1 | grep <span style="color:#e6db74">&#34;Cpu(s)&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check memory usage</span>
+</span></span><span style="display:flex;"><span>free -m
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check disk space</span>
+</span></span><span style="display:flex;"><span>df -h /var/lib/prometheus/ /var/lib/grafana/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check open file limits</span>
+</span></span><span style="display:flex;"><span>ulimit -n
+</span></span><span style="display:flex;"><span>cat /proc/<span style="color:#66d9ef">$(</span>pgrep prometheus<span style="color:#66d9ef">)</span>/limits
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check network connections</span>
+</span></span><span style="display:flex;"><span>netstat -plunt | grep -E <span style="color:#e6db74">&#39;9090|9093|3000&#39;</span>
+</span></span></code></pre></div><h3 id="backup-and-recovery-test">Backup and Recovery Test<a hidden class="anchor" aria-hidden="true" href="#backup-and-recovery-test">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Backup Prometheus data</span>
+</span></span><span style="display:flex;"><span>tar -cvzf prometheus-backup.tar.gz /var/lib/prometheus/data/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Backup Grafana data</span>
+</span></span><span style="display:flex;"><span>pg_dump -U grafana grafana &gt; grafana-backup.sql  <span style="color:#75715e"># For PostgreSQL</span>
+</span></span><span style="display:flex;"><span>sqlite3 /var/lib/grafana/grafana.db .dump &gt; grafana-backup.sql  <span style="color:#75715e"># For SQLite</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Backup configuration files</span>
+</span></span><span style="display:flex;"><span>tar -cvzf config-backup.tar.gz /etc/prometheus/ /etc/grafana/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test recovery in a separate environment or container</span>
+</span></span></code></pre></div><hr>
+<h2 id="best-practices-for-monitoring-system-maintenance">Best Practices for Monitoring System Maintenance<a hidden class="anchor" aria-hidden="true" href="#best-practices-for-monitoring-system-maintenance">#</a></h2>
+<ol>
+<li><strong>Regular updates</strong>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check versions</span>
+</span></span><span style="display:flex;"><span>prometheus --version
+</span></span><span style="display:flex;"><span>grafana-server -v
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Update via package manager</span>
+</span></span><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt upgrade prometheus grafana
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Or using Docker</span>
+</span></span><span style="display:flex;"><span>docker pull prom/prometheus:latest
+</span></span><span style="display:flex;"><span>docker pull grafana/grafana:latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Restart services after update</span>
+</span></span><span style="display:flex;"><span>sudo systemctl restart prometheus grafana-server
+</span></span></code></pre></div></li>
+</ol>
+<pre tabindex="0"><code>
+2. **Configuration management**
+   ```bash
+   # Store configs in version control
+   git init /etc/prometheus/
+   git -C /etc/prometheus/ add .
+   git -C /etc/prometheus/ commit -m &#34;Initial commit&#34;
+   
+   # Test changes before applying
+   promtool check config /etc/prometheus/prometheus.yml.new
+   
+   # Use diff to compare changes
+   diff -u /etc/prometheus/prometheus.yml.old /etc/prometheus/prometheus.yml.new
+</code></pre><ol start="3">
+<li>
+<p><strong>Performance tuning</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Optimize scrape intervals based on metric importance</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Critical metrics: 10-30s</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Standard metrics: 30-60s</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Slow-changing metrics: 5m+</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use recording rules for complex queries</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In prometheus.yml:</span>
+</span></span><span style="display:flex;"><span>rule_files:
+</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#39;recording_rules.yml&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In recording_rules.yml:</span>
+</span></span><span style="display:flex;"><span>groups:
+</span></span><span style="display:flex;"><span>- name: cpu
+</span></span><span style="display:flex;"><span>  interval: 1m
+</span></span><span style="display:flex;"><span>  rules:
+</span></span><span style="display:flex;"><span>  - record: instance:node_cpu:avg_rate5m
+</span></span><span style="display:flex;"><span>    expr: avg by<span style="color:#f92672">(</span>instance<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>rate<span style="color:#f92672">(</span>node_cpu_seconds_total<span style="color:#f92672">{</span>mode!<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;idle&#34;</span><span style="color:#f92672">}[</span>5m<span style="color:#f92672">]))</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>High availability setup</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Run multiple Prometheus instances</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In prometheus1.yml:</span>
+</span></span><span style="display:flex;"><span>global:
+</span></span><span style="display:flex;"><span>  external_labels:
+</span></span><span style="display:flex;"><span>    replica: replica1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use Thanos or Cortex for high-availability</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Example Thanos sidecar:</span>
+</span></span><span style="display:flex;"><span>docker run -d --name thanos-sidecar <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -v /path/to/prometheus:/prometheus <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  quay.io/thanos/thanos:latest <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  sidecar <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --prometheus.url<span style="color:#f92672">=</span>http://prometheus:9090 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --tsdb.path<span style="color:#f92672">=</span>/prometheus
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="troubleshooting-recipes-for-common-scenarios">Troubleshooting Recipes for Common Scenarios<a hidden class="anchor" aria-hidden="true" href="#troubleshooting-recipes-for-common-scenarios">#</a></h2>
+<h3 id="scenario-high-memory-usage-in-prometheus">Scenario: High Memory Usage in Prometheus<a hidden class="anchor" aria-hidden="true" href="#scenario-high-memory-usage-in-prometheus">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Prometheus service consuming excessive memory</li>
+<li>Possible OOM (Out of Memory) kills</li>
+<li>Slow query performance</li>
+</ul>
+<p><strong>Diagnosis Commands:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check current memory usage</span>
+</span></span><span style="display:flex;"><span>ps aux | grep prometheus | awk <span style="color:#e6db74">&#39;{print $6/1024 &#34; MB&#34;}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check memory-related metrics</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/metrics | grep process_resident_memory_bytes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check number of time series</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/status/tsdb | jq <span style="color:#e6db74">&#39;.data.seriesCountByMetricName | to_entries | sort_by(.value) | reverse | .[0:10]&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check cardinality of specific metrics</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=count({__name__=~&#34;.+&#34;}) by (__name__)&#39;</span> http://localhost:9090/api/v1/query | jq <span style="color:#e6db74">&#39;.data.result | sort_by(.value[1]) | reverse | .[0:20]&#39;</span>
+</span></span></code></pre></div><p><strong>Resolution Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Identify high-cardinality metrics:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Find metrics with too many labels</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=count by (__name__, job)({__name__!=&#34;&#34;})&#39;</span> http://localhost:9090/api/v1/query | jq <span style="color:#e6db74">&#39;.data.result | sort_by(.value[1]) | reverse | .[0:20]&#39;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Apply relabeling to reduce cardinality:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># In prometheus.yml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">scrape_configs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">job_name</span>: <span style="color:#e6db74">&#39;high_cardinality_job&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">relabel_configs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">source_labels</span>: [<span style="color:#ae81ff">high_cardinality_label]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">action</span>: <span style="color:#ae81ff">replace</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">target_label</span>: <span style="color:#ae81ff">high_cardinality_label</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">regex</span>: <span style="color:#e6db74">&#39;(.*)&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">replacement</span>: <span style="color:#e6db74">&#39;grouped_value&#39;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Increase memory limits:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># For systemd service</span>
+</span></span><span style="display:flex;"><span>sudo systemctl edit prometheus
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add:</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>LimitNOFILE<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>
+</span></span><span style="display:flex;"><span>LimitNPROC<span style="color:#f92672">=</span><span style="color:#ae81ff">65536</span>
+</span></span><span style="display:flex;"><span>MemoryLimit<span style="color:#f92672">=</span>8G
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For Docker</span>
+</span></span><span style="display:flex;"><span>docker run -d --name prometheus <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --memory<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;8g&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  prom/prometheus:latest
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Use query timeouts to prevent resource exhaustion:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># In prometheus.yml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">global</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">query_log_file</span>: <span style="color:#ae81ff">/var/log/prometheus/query.log</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">enable_admin_api</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">enable_lifecycle</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Set query timeout header when querying</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;X-Prometheus-Query-Timeout: 30s&#34;</span> -g <span style="color:#e6db74">&#39;http://localhost:9090/api/v1/query?query=...&#39;</span>
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="scenario-missing-data-in-grafana-dashboards">Scenario: Missing Data in Grafana Dashboards<a hidden class="anchor" aria-hidden="true" href="#scenario-missing-data-in-grafana-dashboards">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Panels showing &ldquo;No data&rdquo; in Grafana</li>
+<li>Incomplete graphs with gaps</li>
+<li>Alerts not firing despite conditions being met</li>
+</ul>
+<p><strong>Diagnosis Commands:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check if Prometheus has the data</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=up&#39;</span> http://prometheus:9090/api/v1/query | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check specific metric existence</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=node_cpu_seconds_total&#39;</span> http://prometheus:9090/api/v1/query | jq <span style="color:#e6db74">&#39;.data.result | length&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check target scraping status</span>
+</span></span><span style="display:flex;"><span>curl -s http://prometheus:9090/api/v1/targets | jq <span style="color:#e6db74">&#39;.data.activeTargets[] | select(.health==&#34;down&#34;)&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify datasource health in Grafana</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:password&#34;</span> http://localhost:3000/api/datasources/proxy/1/api/v1/query?query<span style="color:#f92672">=</span>up | jq .
+</span></span></code></pre></div><p><strong>Resolution Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Fix Prometheus scrape issues:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check for scrape errors</span>
+</span></span><span style="display:flex;"><span>curl -s http://prometheus:9090/metrics | grep <span style="color:#e6db74">&#34;scrape_samples_scraped&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify target is properly discovered</span>
+</span></span><span style="display:flex;"><span>curl -s http://prometheus:9090/api/v1/targets | jq <span style="color:#e6db74">&#39;.data.activeTargets[] | select(.labels.instance==&#34;problematic-target:9100&#34;)&#39;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Check time synchronization:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Verify NTP is working</span>
+</span></span><span style="display:flex;"><span>timedatectl status
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install and set up NTP if needed</span>
+</span></span><span style="display:flex;"><span>sudo apt install chrony
+</span></span><span style="display:flex;"><span>sudo systemctl enable --now chronyd
+</span></span><span style="display:flex;"><span>chronyc tracking
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Validate Grafana datasource configuration:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check datasource settings</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:password&#34;</span> http://localhost:3000/api/datasources/1 | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Update datasource if needed</span>
+</span></span><span style="display:flex;"><span>curl -X PUT -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:password&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;name&#34;: &#34;Prometheus&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;type&#34;: &#34;prometheus&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;url&#34;: &#34;http://prometheus:9090&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;access&#34;: &#34;proxy&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;basicAuth&#34;: false
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}&#39;</span> http://localhost:3000/api/datasources/1
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Fix dashboard query issues:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Edit panel JSON directly</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:password&#34;</span> http://localhost:3000/api/dashboards/uid/dashboard-uid | jq <span style="color:#e6db74">&#39;.dashboard.panels[0].targets[0].expr = &#34;up&#34;&#39;</span> &gt; updated-dashboard.json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>curl -X POST -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:password&#34;</span> -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d @updated-dashboard.json http://localhost:3000/api/dashboards/db
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="scenario-alert-notification-failures">Scenario: Alert Notification Failures<a hidden class="anchor" aria-hidden="true" href="#scenario-alert-notification-failures">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Alerts triggering but notifications not being sent</li>
+<li>Missing alerts in external systems (Email, Slack, PagerDuty)</li>
+<li>Error messages in AlertManager logs</li>
+</ul>
+<p><strong>Diagnosis Commands:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check AlertManager configuration</span>
+</span></span><span style="display:flex;"><span>amtool check-config /etc/alertmanager/alertmanager.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View active alerts in AlertManager</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9093/api/v1/alerts | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check AlertManager status</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9093/api/v1/status | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View silences (might be blocking notifications)</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9093/api/v1/silences | jq .
+</span></span></code></pre></div><p><strong>Resolution Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Fix AlertManager configuration:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check syntax and structure</span>
+</span></span><span style="display:flex;"><span>amtool check-config /etc/alertmanager/alertmanager.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Reload configuration</span>
+</span></span><span style="display:flex;"><span>curl -X POST http://localhost:9093/-/reload
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Test notification channels directly:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test email</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Subject: Test Alert Email&#34;</span> | sendmail -v recipient@example.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test Slack webhook</span>
+</span></span><span style="display:flex;"><span>curl -X POST -H <span style="color:#e6db74">&#39;Content-type: application/json&#39;</span> --data <span style="color:#e6db74">&#39;{&#34;text&#34;:&#34;Test alert from AlertManager&#34;}&#39;</span> ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test PagerDuty</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Content-type: application/json&#34;</span> -X POST -d <span style="color:#e6db74">&#39;{&#34;routing_key&#34;:&#34;YOUR_INTEGRATION_KEY&#34;,&#34;event_action&#34;:&#34;trigger&#34;,&#34;payload&#34;:{&#34;summary&#34;:&#34;Test alert&#34;,&#34;source&#34;:&#34;AlertManager test&#34;,&#34;severity&#34;:&#34;critical&#34;}}&#39;</span> <span style="color:#e6db74">&#34;https://events.pagerduty.com/v2/enqueue&#34;</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Check network connectivity for outbound traffic:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test SMTP connection</span>
+</span></span><span style="display:flex;"><span>nc -zv smtp.example.com <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Test HTTPS connections</span>
+</span></span><span style="display:flex;"><span>curl -v https://hooks.slack.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check if proxy is needed</span>
+</span></span><span style="display:flex;"><span>env | grep -i proxy
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Review templating issues:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Test template rendering</span>
+</span></span><span style="display:flex;"><span>amtool template test --template.file<span style="color:#f92672">=</span>/etc/alertmanager/templates/email.tmpl alert-test-data.json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Update template if needed</span>
+</span></span><span style="display:flex;"><span>cat &gt; /etc/alertmanager/templates/email.tmpl <span style="color:#e6db74">&lt;&lt; EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{{ define &#34;email.subject&#34; }}[{{ .Status | toUpper }}] {{ .GroupLabels.alertname }}{{ end }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{{ define &#34;email.body&#34; }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Alert: {{ .GroupLabels.alertname }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Status: {{ .Status }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Severity: {{ .CommonLabels.severity }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Summary: {{ .CommonAnnotations.summary }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Description: {{ .CommonAnnotations.description }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{{ end }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="advanced-troubleshooting-techniques">Advanced Troubleshooting Techniques<a hidden class="anchor" aria-hidden="true" href="#advanced-troubleshooting-techniques">#</a></h2>
+<h3 id="using-pprof-for-performance-profiling">Using pprof for Performance Profiling<a hidden class="anchor" aria-hidden="true" href="#using-pprof-for-performance-profiling">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Enable pprof in Prometheus (if not already enabled)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add to prometheus.yml or command line:</span>
+</span></span><span style="display:flex;"><span>web:
+</span></span><span style="display:flex;"><span>  enable_admin_api: true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Capture CPU profile</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/debug/pprof/profile?seconds<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> &gt; prometheus-cpu.prof
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Capture heap profile</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/debug/pprof/heap &gt; prometheus-heap.prof
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Analyze with go tool</span>
+</span></span><span style="display:flex;"><span>go tool pprof -http<span style="color:#f92672">=</span>:8080 prometheus-cpu.prof
+</span></span><span style="display:flex;"><span>go tool pprof -http<span style="color:#f92672">=</span>:8080 prometheus-heap.prof
+</span></span></code></pre></div><h3 id="analyzing-tsdb-blocks">Analyzing TSDB Blocks<a hidden class="anchor" aria-hidden="true" href="#analyzing-tsdb-blocks">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Install Prometheus tools</span>
+</span></span><span style="display:flex;"><span>go get github.com/prometheus/prometheus/cmd/promtool
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Analyze TSDB blocks</span>
+</span></span><span style="display:flex;"><span>promtool tsdb analyze /var/lib/prometheus/data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># List blocks</span>
+</span></span><span style="display:flex;"><span>ls -la /var/lib/prometheus/data/chunks_head
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify block integrity</span>
+</span></span><span style="display:flex;"><span>promtool tsdb verify /var/lib/prometheus/data
+</span></span></code></pre></div><h3 id="debugging-with-trace-logs">Debugging with Trace Logs<a hidden class="anchor" aria-hidden="true" href="#debugging-with-trace-logs">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Enable trace logging for Prometheus</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add to systemd unit or command line:</span>
+</span></span><span style="display:flex;"><span>--log.level<span style="color:#f92672">=</span>debug
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Filter logs for specific components</span>
+</span></span><span style="display:flex;"><span>journalctl -u prometheus -f | grep <span style="color:#e6db74">&#34;tsdb&#34;</span>
+</span></span><span style="display:flex;"><span>journalctl -u prometheus -f | grep <span style="color:#e6db74">&#34;scrape&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Enable query logging</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add to prometheus.yml:</span>
+</span></span><span style="display:flex;"><span>global:
+</span></span><span style="display:flex;"><span>  query_log_file: /var/log/prometheus/query.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Analyze slow queries</span>
+</span></span><span style="display:flex;"><span>grep -i <span style="color:#e6db74">&#34;slow query&#34;</span> /var/log/prometheus/query.log
+</span></span></code></pre></div><h2 id="preventive-maintenance-checklist">Preventive Maintenance Checklist<a hidden class="anchor" aria-hidden="true" href="#preventive-maintenance-checklist">#</a></h2>
+<p>Regular maintenance ensures your monitoring system remains healthy and effective. Use this checklist as part of your routine maintenance:</p>
+<h3 id="weekly-checks">Weekly Checks<a hidden class="anchor" aria-hidden="true" href="#weekly-checks">#</a></h3>
+<ol>
+<li>
+<p><strong>Review storage usage trends:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check disk usage growth</span>
+</span></span><span style="display:flex;"><span>df -h /var/lib/prometheus
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Analyze TSDB stats</span>
+</span></span><span style="display:flex;"><span>curl -s http://localhost:9090/api/v1/status/tsdb | jq .
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Verify target scraping health:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check for dropped targets</span>
+</span></span><span style="display:flex;"><span>curl -s <span style="color:#e6db74">&#39;http://localhost:9090/api/v1/targets?state=down&#39;</span> | jq .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check scrape interval compliance</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=scrape_interval_seconds - (time() - scrape_time_seconds)&#39;</span> http://localhost:9090/api/v1/query | jq .
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Test alerting pipeline:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Fire test alert</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -d <span style="color:#e6db74">&#39;[{&#34;labels&#34;:{&#34;alertname&#34;:&#34;TestAlert&#34;,&#34;severity&#34;:&#34;test&#34;}}]&#39;</span> http://localhost:9093/api/v1/alerts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Verify receipt in notification channels</span>
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="monthly-checks">Monthly Checks<a hidden class="anchor" aria-hidden="true" href="#monthly-checks">#</a></h3>
+<ol>
+<li>
+<p><strong>Update Prometheus and Grafana:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Check for updates</span>
+</span></span><span style="display:flex;"><span>apt list --upgradable | grep -E <span style="color:#e6db74">&#39;prometheus|grafana&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply updates in test environment first</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Review and optimize high-cardinality metrics:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Find top cardinality metrics</span>
+</span></span><span style="display:flex;"><span>curl -s --data-urlencode <span style="color:#e6db74">&#39;query=count({__name__=~&#34;.+&#34;}) by (__name__)&#39;</span> http://localhost:9090/api/v1/query | jq <span style="color:#e6db74">&#39;.data.result | sort_by(.value[1]) | reverse | .[0:20]&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add relabeling or dropping as needed</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Back up critical configurations and data:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Backup Prometheus config</span>
+</span></span><span style="display:flex;"><span>tar -czf prometheus-config-<span style="color:#66d9ef">$(</span>date +%Y%m%d<span style="color:#66d9ef">)</span>.tar.gz /etc/prometheus/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Backup Grafana dashboards</span>
+</span></span><span style="display:flex;"><span>curl -s -H <span style="color:#e6db74">&#34;Authorization: Bearer admin:password&#34;</span> http://localhost:3000/api/dashboards/home | jq . &gt; grafana-dashboards-<span style="color:#66d9ef">$(</span>date +%Y%m%d<span style="color:#66d9ef">)</span>.json
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="quarterly-checks">Quarterly Checks<a hidden class="anchor" aria-hidden="true" href="#quarterly-checks">#</a></h3>
+<ol>
+<li>
+<p><strong>Review retention policies and storage needs:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Adjust retention based on growth</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In prometheus.yml:</span>
+</span></span><span style="display:flex;"><span>storage:
+</span></span><span style="display:flex;"><span>  tsdb:
+</span></span><span style="display:flex;"><span>    retention.time: 30d
+</span></span><span style="display:flex;"><span>    retention.size: 100GB
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Perform full system health assessment:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Run comprehensive checks</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Storage performance</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Memory usage</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Query performance</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - Alerting reliability</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Update documentation and runbooks:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Document recent changes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Update playbooks for new alert types</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Review emergency procedures</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>By maintaining a comprehensive troubleshooting guide and following these preventive maintenance steps, you&rsquo;ll ensure your Prometheus and Grafana monitoring system remains reliable, performant, and effective at detecting issues across your infrastructure.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Samuel O</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
